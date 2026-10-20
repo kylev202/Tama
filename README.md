@@ -2,11 +2,11 @@
 
 A Dynamic Island for Windows, modelled on the island in [Hitodama](https://hitodama.in/): a black capsule at the top of your main screen with a small soul inside. Hover it for quick controls; scroll down or click it to open the panels. Everything runs offline except song lyrics, which come from [LRCLIB](https://lrclib.net/) (the lyrics button in Music turns that off), and the Chatbot, which only goes online once you add a free Groq API key.
 
-**[Website and live demo](https://kylev202.github.io/tama/)** · **[Download Tama 1.0.0](https://github.com/kylev202/tama/releases/latest)** (1.5 MB, Windows 11, 64-bit)
+**[Website and live demo](https://kylev202.github.io/Tama/)** · **[Download Tama 1.0.0](https://github.com/kylev202/Tama/releases/latest)** (1.5 MB, Windows 11, 64-bit)
 
 ## Install
 
-1. Download `Tama_1.0.0_x64-setup.exe` from [Releases](https://github.com/kylev202/tama/releases/latest).
+1. Download `Tama_1.0.0_x64-setup.exe` from [Releases](https://github.com/kylev202/Tama/releases/latest).
 2. Run it. It installs for your account only, so it doesn't ask for admin rights.
 3. If Windows SmartScreen says it protected your PC, choose **More info**, then **Run anyway**. Tama isn't code-signed yet, so Windows doesn't recognise it.
 4. Look at the top of your main screen. Tama starts with Windows; turn that off in Settings or from the tray icon.
