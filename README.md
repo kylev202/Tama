@@ -70,7 +70,14 @@ The front end is plain HTML/CSS/JS in `src/` (no bundler); the Rust side is in `
 
 ### Website
 
-The website is in `site/`. Its live demo is the app's own front end: `node site/build.mjs` copies `src/` into `_site/demo/` next to `site/demo/bridge.js`, a stand-in for the Rust side that answers every command with demo data (the songs and lyrics are made up). Serve `_site/` with any static server to preview it. Pushing to `main` publishes it to GitHub Pages (`.github/workflows/pages.yml`). If you add a native command, add it to `bridge.js` too, or the demo rejects it.
+The website is in `site/`. Its live demo is the app's own front end, run against `site/demo/bridge.js`, a stand-in for the Rust side that answers every command with demo data (the songs and lyrics are made up).
+
+```sh
+npm run site        # preview at http://localhost:5180/, straight from site/ and src/
+npm run site:build  # the published version, in _site/
+```
+
+Opening `site/` with a plain static server (like Live Server) won't work: the demo is put together from `src/`. Pushing to `main` publishes the site to GitHub Pages (`.github/workflows/pages.yml`). If you add a native command, add it to `bridge.js` too, or the demo rejects it.
 
 ## Where things live
 
