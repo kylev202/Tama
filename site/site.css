@@ -1,52 +1,87 @@
-/* Tama's website. The same system as the app (DESIGN.md): the island is true black, the
-   soul's accent is the one colour, and the type is Windows' own Segoe UI Variable, so the
-   page downloads no fonts. The page itself is the night sky the island floats in. */
+/* Tama's website, in daylight. The island is the hero object: true black on bright fields,
+   the way it sits on a Windows wallpaper. Colour comes from what it means in the app: the
+   soul's accent, the Study list's violet for focus, the playing song's colour for music, and
+   whichever accent you pick in Personalise. Headlines are Bricolage Grotesque (self-hosted,
+   SIL OFL); everything else is Windows' own Segoe UI Variable. */
 
+@font-face {
+  font-family: "Bricolage Grotesque";
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url("fonts/bricolage-grotesque-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Bricolage Grotesque";
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url("fonts/bricolage-grotesque-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+/* The playing song's colour, registered so the Music field can glide between songs. */
 @property --music-tint {
   syntax: "<color>";
   inherits: true;
-  initial-value: oklch(0.84 0.105 200);
+  initial-value: oklch(0.8 0.12 75);
 }
 
 :root {
-  color-scheme: dark;
+  color-scheme: light;
 
-  /* Night: the page, a raised band, and the lake under the hero soul. */
-  --sky: oklch(0.165 0.017 245);
-  --sky-raised: oklch(0.205 0.019 245);
-  --lake: oklch(0.118 0.015 242);
+  /* Daylight: the page, a raised band, plain white, and the island. */
+  --day: oklch(0.985 0.006 200);
+  --day-2: oklch(0.962 0.012 200);
+  --white: oklch(1 0 0);
   --island: oklch(0 0 0);
-  --well: oklch(0.2 0 0);
-  --well-strong: oklch(0.27 0 0);
-  --line: oklch(1 0 0 / 0.09);
+  --line: oklch(0.25 0.02 230 / 0.12);
 
-  /* Ink: about 17:1, 10:1 and 6.5:1 on the sky. */
-  --ink: oklch(0.97 0.004 230);
-  --ink-2: oklch(0.8 0.012 235);
-  --ink-3: oklch(0.69 0.014 238);
+  /* Ink: about 15:1, 8.5:1 and 5.6:1 on the page. Colour fields override these with
+     darker shades of their own hue, so text never turns grey on colour. */
+  --ink: oklch(0.2 0.02 235);
+  --ink-2: oklch(0.4 0.022 235);
+  --ink-3: oklch(0.5 0.02 235);
 
-  /* The accent follows Personalise in the demo, like the app's. */
+  /* The accent follows Personalise in the demo, like the app's. Fills use it as it is
+     (all ten presets are light enough for dark text); text and rings use a deep shade. */
   --accent: oklch(0.84 0.105 200);
-  --soul: var(--accent);
-  --soul-hover: oklch(from var(--soul) calc(l + 0.05) c h);
-  --on-soul: oklch(from var(--accent) 0.2 calc(c * 0.3) h);
-  --focus-ring: color-mix(in oklch, var(--soul) 70%, transparent);
-  --work: oklch(0.7 0.13 52);
-  --study: oklch(0.7 0.14 295);
+  --accent-ink: oklch(from var(--accent) 0.47 min(calc(c * 1.1), 0.13) h);
+  --focus-ring: oklch(from var(--accent) 0.55 max(c, 0.1) h);
+  --work: oklch(0.58 0.14 52);
+  --study: oklch(0.52 0.17 295);
   --tint-l: 0.8; /* album-art tints, as in the app */
 
+  --shadow-pill: 0 1px 2px oklch(0.2 0.03 230 / 0.08), 0 6px 18px oklch(0.2 0.03 230 / 0.1);
+  --shadow-object:
+    0 1px 2px oklch(0.2 0.03 230 / 0.08),
+    0 14px 30px oklch(0.2 0.03 230 / 0.12),
+    0 44px 100px oklch(0.2 0.03 230 / 0.2);
+
   --font: "Segoe UI Variable Text", "Segoe UI Variable", "Segoe UI", system-ui, -apple-system, "Helvetica Neue", sans-serif;
-  --font-display: "Segoe UI Variable Display", "Segoe UI Variable", "Segoe UI", system-ui, -apple-system, "Helvetica Neue", sans-serif;
+  --font-ui-display: "Segoe UI Variable Display", "Segoe UI Variable", "Segoe UI", system-ui, -apple-system, "Helvetica Neue", sans-serif;
+  --font-display: "Bricolage Grotesque", var(--font-ui-display);
 
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   /* The app's lyric spring (900ms, under 1% overshoot), sampled for CSS. */
   --ease-spring: linear(0, 0.0272, 0.0946, 0.185, 0.2861, 0.3891, 0.488, 0.5792, 0.6608, 0.7318, 0.7922, 0.8427, 0.8839, 0.917, 0.943, 0.9631, 0.9782, 0.9892, 0.9971, 1.0024, 1.0058, 1.0077, 1.0086, 1.0088, 1.0084, 1.0077, 1.0069, 1.006, 1.0051, 1.0043, 1.0035, 1.0028, 1.0022, 1.0017, 1.0013, 1.0009, 1);
+  /* The island's own morph: a spring with a little bounce, like island.js. */
+  --ease-island: linear(0, 0.0414, 0.1418, 0.2779, 0.4256, 0.5694, 0.6981, 0.8063, 0.8907, 0.9518, 0.9918, 1.0141, 1.0234, 1.0233, 1.0174, 1.0089, 1.0007, 0.9944, 0.9907, 0.9897, 0.9907, 0.9929, 0.9955, 0.9978, 0.9995, 1);
+
+  /* The bright "wallpaper" behind the hero and the install section: the accent as morning
+     sky, with a warm low sun in one corner. */
+  --wallpaper:
+    radial-gradient(55% 55% at 92% 96%, oklch(0.9 0.085 58 / 0.95), transparent 70%),
+    radial-gradient(62% 62% at 4% 0%, oklch(from var(--accent) 0.8 calc(c * 1.2) h / 0.95), transparent 72%),
+    radial-gradient(48% 46% at 62% 14%, oklch(from var(--accent) 0.9 calc(c * 0.6) calc(h + 30) / 0.9), transparent 72%),
+    linear-gradient(176deg, oklch(from var(--accent) 0.93 calc(c * 0.5) h), oklch(0.975 0.012 75) 94%);
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.1 0 0 0 0 0.12 0 0 0 0 0.15 0 0 0 0.07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 
   --gutter: clamp(16px, 4vw, 48px);
-  --page: min(1180px, 100% - 2 * var(--gutter));
 
   /* Layers */
-  --z-wallpaper: 0;
   --z-content: 1;
   --z-topbar: 10;
   --z-island: 20;
@@ -64,21 +99,19 @@
 }
 
 html {
-  background: var(--sky);
+  background: var(--day);
   scroll-behavior: smooth;
-  scroll-padding-top: 64px;
+  scroll-padding-top: 56px;
   -webkit-text-size-adjust: 100%;
 }
 
 body {
   margin: 0;
-  font: 400 1.0625rem / 1.65 var(--font);
-  letter-spacing: 0.005em;
+  font: 400 1.0625rem / 1.6 var(--font);
   color: var(--ink);
-  background: var(--sky);
+  background: var(--day);
   font-optical-sizing: auto;
   -webkit-font-smoothing: antialiased;
-  overflow-x: clip;
 }
 
 main,
@@ -87,13 +120,14 @@ main,
   z-index: var(--z-content);
 }
 
-/* Glows reach past their sections; clip them here, since a clip on body goes to the viewport. */
+/* Sections bleed past the page edge on purpose; clip them here (a clip on body would go to
+   the viewport instead). */
 main {
   overflow-x: clip;
 }
 
 a {
-  color: var(--soul);
+  color: var(--accent-ink);
   text-underline-offset: 3px;
   text-decoration-thickness: 1px;
   transition: color 300ms var(--ease-out);
@@ -107,9 +141,10 @@ a {
 
 code {
   font: 500 0.875em / 1 "Cascadia Mono", Consolas, ui-monospace, monospace;
-  padding: 3px 6px;
-  border-radius: 6px;
-  background: oklch(1 0 0 / 0.07);
+  padding: 3px 7px;
+  border-radius: 7px;
+  background: var(--white);
+  box-shadow: inset 0 0 0 1px var(--line);
   color: var(--ink);
 }
 
@@ -129,8 +164,8 @@ code {
   z-index: var(--z-skip);
   padding: 10px 16px;
   border-radius: 999px;
-  background: var(--soul);
-  color: var(--on-soul);
+  background: var(--island);
+  color: var(--white);
   font-weight: 600;
   text-decoration: none;
   translate: 0 -200%;
@@ -177,42 +212,18 @@ code {
   opacity: 0;
 }
 
-/* Setting a wallpaper in the demo washes the page in it. */
-.wallpaper {
-  position: fixed;
-  inset: -40px;
-  z-index: var(--z-wallpaper);
-  background: center / cover no-repeat;
-  filter: blur(28px) saturate(1.1);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 900ms var(--ease-out);
-}
-
-.wallpaper.on {
-  opacity: 0.3;
-}
-
-/* ---------- Top bar: the menu bar either side of the island ---------- */
+/* ---------- Top bar: pills either side of the island, the island's own height ---------- */
 
 .topbar {
   position: fixed;
-  inset: 0 0 auto;
+  inset: 6px 0 auto;
   z-index: var(--z-topbar);
-  height: 46px;
+  height: 34px;
   padding: 0 var(--gutter);
   display: flex;
   align-items: center;
   justify-content: space-between;
   pointer-events: none;
-}
-
-.topbar::before {
-  content: "";
-  position: absolute;
-  inset: 0 0 -28px;
-  z-index: -1;
-  background: linear-gradient(var(--sky) 50%, transparent);
 }
 
 .topbar > * {
@@ -222,38 +233,37 @@ code {
 .brand {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 7px;
+  height: 34px;
+  padding: 0 15px 0 9px;
+  border-radius: 999px;
+  background: var(--white);
+  box-shadow: var(--shadow-pill);
   color: var(--ink);
   text-decoration: none;
-  font: 600 1.125rem / 1 var(--font-display);
+  font: 700 1.0625rem / 1 var(--font-display);
   letter-spacing: -0.01em;
 }
 
 .brand-mark {
-  width: 26px;
-  height: 26px;
+  width: 22px;
+  height: 22px;
 }
 
 .topnav {
   display: flex;
   align-items: center;
-  gap: 20px;
-}
-
-.topnav-link {
-  color: var(--ink-2);
-  font-size: 0.9375rem;
-  text-decoration: none;
-}
-
-.topnav-link:hover {
-  color: var(--ink);
+  gap: 8px;
 }
 
 @media (max-width: 560px) {
   .brand span,
-  .topnav-link {
+  .topnav .button:not(.primary) {
     display: none;
+  }
+
+  .brand {
+    padding: 0 6px;
   }
 }
 
@@ -270,23 +280,24 @@ code {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  min-height: 44px;
-  padding: 0 20px;
+  gap: 9px;
+  min-height: 46px;
+  padding: 0 22px;
   border: 0;
   border-radius: 999px;
-  background: oklch(1 0 0 / 0.08);
-  box-shadow: inset 0 0 0 1px var(--line);
+  background: var(--white);
+  box-shadow:
+    inset 0 0 0 1px var(--line),
+    var(--shadow-pill);
   color: var(--ink);
-  font: 600 0.9375rem / 1 var(--font);
-  letter-spacing: 0.005em;
+  font: 600 0.9688rem / 1 var(--font);
   text-decoration: none;
   white-space: nowrap;
   cursor: pointer;
   transition:
-    scale 120ms var(--ease-out),
-    background-color 300ms var(--ease-out),
-    color 300ms var(--ease-out);
+    scale 140ms var(--ease-out),
+    background-color 200ms var(--ease-out),
+    box-shadow 200ms var(--ease-out);
 }
 
 .button svg {
@@ -294,15 +305,22 @@ code {
   height: 18px;
   fill: none;
   stroke: currentColor;
-  stroke-width: 1.9;
+  stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
 
+/* The primary action is a piece of the island: black, with the soul's colour on its icon. */
 .button.primary {
-  background: var(--soul);
-  box-shadow: none;
-  color: var(--on-soul);
+  background: var(--island);
+  box-shadow:
+    0 1px 2px oklch(0.2 0.03 230 / 0.2),
+    0 10px 24px oklch(0.2 0.03 230 / 0.25);
+  color: oklch(0.98 0 0);
+}
+
+.button.primary svg {
+  color: var(--accent);
 }
 
 .button.small {
@@ -312,18 +330,18 @@ code {
 }
 
 .button.large {
-  min-height: 54px;
-  padding: 0 28px;
+  min-height: 56px;
+  padding: 0 30px;
   font-size: 1.0625rem;
 }
 
 @media (hover: hover) and (pointer: fine) {
   .button:hover {
-    background: oklch(1 0 0 / 0.13);
+    background: oklch(0.975 0.008 200);
   }
 
   .button.primary:hover {
-    background: var(--soul-hover);
+    background: oklch(0.25 0.015 235);
   }
 }
 
@@ -332,20 +350,45 @@ code {
 }
 
 .link-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   padding: 0;
   border: 0;
   background: none;
-  color: var(--soul);
+  color: var(--ink);
   font: 600 1rem / 1.5 var(--font);
+  cursor: pointer;
+}
+
+.link-button::before {
+  content: "↑";
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--island);
+  color: var(--accent);
+  font-size: 0.9375rem;
+  transition: translate 200ms var(--ease-out);
+}
+
+.link-button span {
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 4px;
-  cursor: pointer;
-  transition: color 300ms var(--ease-out);
+  text-decoration-color: color-mix(in oklch, currentColor 35%, transparent);
 }
 
-.link-button::after {
-  content: " ↑";
+@media (hover: hover) and (pointer: fine) {
+  .link-button:hover::before {
+    translate: 0 -3px;
+  }
+
+  .link-button:hover span {
+    text-decoration-color: currentColor;
+  }
 }
 
 .icon-button {
@@ -357,7 +400,7 @@ code {
   border: 0;
   border-radius: 50%;
   background: transparent;
-  color: var(--ink);
+  color: oklch(0.97 0 0);
   cursor: pointer;
   transition: scale 120ms var(--ease-out), background-color 200ms;
 }
@@ -374,13 +417,13 @@ code {
 .icon-button.solid {
   width: 44px;
   height: 44px;
-  background: var(--ink);
+  background: oklch(0.97 0 0);
   color: var(--island);
 }
 
 @media (hover: hover) and (pointer: fine) {
   .icon-button:not(.solid):hover {
-    background: oklch(1 0 0 / 0.08);
+    background: oklch(1 0 0 / 0.12);
   }
 }
 
@@ -395,62 +438,72 @@ h2,
 h3 {
   font-family: var(--font-display);
   text-wrap: balance;
+  font-optical-sizing: auto;
 }
 
 h1 {
   margin: 0;
-  max-width: 19ch;
-  font-size: clamp(2.5rem, 1.4rem + 4vw, 4.5rem);
-  font-weight: 650;
-  line-height: 1.02;
-  letter-spacing: -0.034em;
+  max-width: 14ch;
+  font-size: clamp(2.9rem, 1.2rem + 5vw, 5.25rem);
+  font-weight: 750;
+  line-height: 1;
+  letter-spacing: -0.022em;
 }
 
 h2 {
-  margin: 0 0 20px;
-  max-width: 17ch;
-  font-size: clamp(2rem, 1.2rem + 2.8vw, 3.4rem);
-  font-weight: 650;
-  line-height: 1.06;
-  letter-spacing: -0.028em;
+  margin: 0 0 22px;
+  max-width: 16ch;
+  font-size: clamp(2.4rem, 1.3rem + 3.4vw, 4.25rem);
+  font-weight: 750;
+  line-height: 1.02;
+  letter-spacing: -0.024em;
 }
 
 h3 {
   margin: 0 0 8px;
-  font-size: 1.1875rem;
-  font-weight: 600;
-  line-height: 1.3;
-  letter-spacing: -0.01em;
+  font-size: 1.375rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
 }
 
 .copy p {
-  max-width: 58ch;
+  max-width: 56ch;
   margin: 0 0 16px;
   color: var(--ink-2);
   text-wrap: pretty;
 }
 
-.fineprint {
+.fineprint,
+.copy .fineprint {
   margin-top: 20px;
   font-size: 0.875rem;
   color: var(--ink-3);
 }
 
-.copy .fineprint {
-  color: var(--ink-3);
-}
-
-/* ---------- Hero ---------- */
+/* ---------- Hero: a bright desktop ---------- */
 
 .hero {
   position: relative;
-  min-height: max(760px, 100svh);
-  padding: 92px var(--gutter) 0;
+  isolation: isolate;
+  min-height: max(780px, 100svh);
+  padding: 96px var(--gutter) 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  overflow: clip;
+  color: var(--ink);
+  background: var(--wallpaper);
+}
+
+.hero::after,
+.install::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--grain);
+  pointer-events: none;
 }
 
 .hint {
@@ -458,9 +511,10 @@ h3 {
   align-items: center;
   gap: 8px;
   margin: 0 0 24px;
-  padding: 7px 16px 7px 12px;
+  padding: 6px 16px 6px 6px;
   border-radius: 999px;
-  background: oklch(1 0 0 / 0.06);
+  background: var(--white);
+  box-shadow: var(--shadow-pill);
   color: var(--ink-2);
   font-size: 0.875rem;
   line-height: 1.3;
@@ -471,11 +525,14 @@ h3 {
 
 .hint svg {
   flex: none;
-  width: 16px;
-  height: 16px;
+  width: 24px;
+  height: 24px;
+  padding: 5px;
+  border-radius: 50%;
+  background: var(--island);
   fill: none;
-  stroke: var(--soul);
-  stroke-width: 2;
+  stroke: var(--accent);
+  stroke-width: 2.4;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
@@ -500,19 +557,19 @@ h3 {
 }
 
 .lede {
-  max-width: 52ch;
-  margin: 20px 0 0;
-  font-size: clamp(1.0625rem, 1rem + 0.35vw, 1.25rem);
-  line-height: 1.6;
+  max-width: 46ch;
+  margin: 24px 0 0;
+  font-size: clamp(1.125rem, 1rem + 0.45vw, 1.3125rem);
+  line-height: 1.55;
   color: var(--ink-2);
-  text-wrap: pretty;
+  text-wrap: balance;
 }
 
 .actions {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
-  margin-top: 32px;
+  margin-top: 34px;
 }
 
 .hero .actions {
@@ -526,83 +583,123 @@ h3 {
   font-variant-numeric: tabular-nums;
 }
 
-/* The lake: the soul hovers over a still black water line and shows in it. */
-.lake {
-  --soul-w: min(336px, 62vw);
-  --soul-h: calc(var(--soul-w) * 34 / 48);
-  --gap: 10px;
-  position: relative;
-  width: 100vw;
-  height: clamp(280px, 38vh, 380px);
+/* The island at four times its size, playing a song: cover on the left, the soul in the
+   middle, the bars on the right, as the real one shows it. */
+.stage {
+  display: grid;
+  place-items: center;
+  width: 100%;
   margin-top: auto;
+  padding: 44px 0 clamp(56px, 8vh, 96px);
 }
 
-/* Water: dark at the horizon, back to the sky colour at the bottom of the hero. */
-.lake::before {
-  content: "";
-  position: absolute;
-  inset: 52% 0 0;
+.hero-island {
+  --h: clamp(84px, 11vw, 136px);
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  width: min(calc(var(--h) * 4), 100vw - 32px);
+  height: var(--h);
+  padding: 0 calc(var(--h) * 0.24);
+  border: 0;
+  border-radius: 999px;
+  background: var(--island);
+  cursor: pointer;
+  box-shadow:
+    0 2px 4px oklch(0.2 0.03 230 / 0.12),
+    0 30px 60px -12px oklch(0.2 0.03 230 / 0.4),
+    0 70px 120px -30px oklch(from var(--accent) 0.45 c h / 0.45);
+  transition: scale 200ms var(--ease-out);
+}
+
+.hero-island:active {
+  scale: 0.985;
+}
+
+.hero-art {
+  justify-self: start;
+  width: calc(var(--h) * 0.46);
+  aspect-ratio: 1;
+  border-radius: 26%;
   background:
-    radial-gradient(28% 34% at 50% 0%, color-mix(in oklch, var(--soul) 16%, transparent), transparent 100%),
-    linear-gradient(var(--lake), var(--sky));
-  transition: background 600ms var(--ease-out);
-}
-
-/* The soul's light on the air above the water. */
-.lake::after {
-  content: "";
-  position: absolute;
-  inset: 10% 20% 40%;
-  background: radial-gradient(closest-side, color-mix(in oklch, var(--soul) 10%, transparent), transparent);
-  pointer-events: none;
-}
-
-.horizon {
-  position: absolute;
-  inset: 52% 0 auto;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, oklch(1 0 0 / 0.1) 25%, color-mix(in oklch, var(--soul) 45%, transparent) 50%, oklch(1 0 0 / 0.1) 75%, transparent);
+    repeating-linear-gradient(transparent 0 6%, oklch(0.2 0.05 260 / 0.55) 6% 9%) 50% 100% / 70% 34% no-repeat,
+    radial-gradient(circle at 50% 66%, oklch(0.95 0.08 80) 0 10%, oklch(0.8 0.15 62) 24%, oklch(0.45 0.11 40) 50%, oklch(0.17 0.04 265) 82%);
 }
 
 .hero-soul {
-  position: absolute;
-  z-index: 1;
-  left: 50%;
-  bottom: 48%;
-  width: var(--soul-w);
-  height: var(--soul-h);
-  /* The body's base sits 19% above the canvas bottom; float it --gap above the water.
-     The reflection's mask runs before the flip: its top is the far tip, faded out. */
-  translate: -50% calc(19% - var(--gap));
-  cursor: pointer;
-  -webkit-box-reflect: below calc(2 * var(--gap) - 0.38 * var(--soul-h)) linear-gradient(transparent 30%, oklch(0 0 0 / 0.5) 82%);
+  width: calc(var(--h) * 1.34);
+  height: calc(var(--h) * 0.95);
 }
 
-/* Fine ripples cut the reflection into lines, like still water. */
-.horizon::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 1px;
-  width: min(420px, 80vw);
-  height: 200px;
-  translate: -50% 0;
-  background: repeating-linear-gradient(transparent 0 6px, var(--lake) 6px 8px);
-  mask-image: radial-gradient(50% 100% at 50% 0%, #000 45%, transparent);
-  z-index: 2;
+.hero-bars {
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: calc(var(--h) * 0.055);
+  height: calc(var(--h) * 0.3);
 }
 
-/* ---------- Bands ---------- */
+.hero-bars i {
+  width: calc(var(--h) * 0.06);
+  height: 100%;
+  border-radius: 99px;
+  background: oklch(0.84 0.14 72);
+  scale: 1 0.7;
+}
+
+/* Resting heights, for reduced motion: a waveform, not four equal blocks. */
+.hero-bars i:nth-child(2) {
+  scale: 1 1;
+}
+
+.hero-bars i:nth-child(3) {
+  scale: 1 0.5;
+}
+
+.hero-bars i:nth-child(4) {
+  scale: 1 0.8;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero-bars i {
+    animation: bar 820ms ease-in-out infinite alternate;
+  }
+
+  .hero-bars i:nth-child(2) {
+    animation-duration: 640ms;
+    animation-delay: -300ms;
+  }
+
+  .hero-bars i:nth-child(3) {
+    animation-duration: 940ms;
+    animation-delay: -500ms;
+  }
+
+  .hero-bars i:nth-child(4) {
+    animation-duration: 720ms;
+    animation-delay: -150ms;
+  }
+}
+
+@keyframes bar {
+  from {
+    scale: 1 0.25;
+  }
+
+  to {
+    scale: 1 1;
+  }
+}
+
+/* ---------- Bands: full-bleed fields, content held to the page width ---------- */
 
 .band {
   position: relative;
-  width: var(--page);
-  margin: 0 auto;
-  padding: clamp(88px, 12vw, 168px) 0;
-}
-
-.band + .band {
-  border-top: 1px solid var(--line);
+  padding: clamp(96px, 12vw, 176px) max(var(--gutter), (100% - 1180px) / 2);
+  color: var(--ink);
+  background: var(--day);
+  transition: background-color 500ms var(--ease-out);
 }
 
 .split {
@@ -630,13 +727,11 @@ h3 {
   height: auto;
   border-radius: 32px;
   background: var(--island);
-  box-shadow:
-    0 0 0 1px oklch(1 0 0 / 0.06),
-    0 40px 90px oklch(0 0 0 / 0.5);
+  box-shadow: var(--shadow-object);
 }
 
 .try {
-  margin-top: 28px;
+  margin-top: 30px;
 }
 
 @media (max-width: 920px) {
@@ -658,50 +753,71 @@ h3 {
 
 .quickadd {
   margin-top: 36px;
-  max-width: 560px;
+  max-width: 580px;
 }
 
 .quickadd label {
   display: block;
   margin-bottom: 10px;
   font-size: 0.9375rem;
-  color: var(--ink-2);
+  font-weight: 600;
+  color: var(--ink);
 }
 
+/* The field is the island's own: black, with a bright pill to add. */
 .quickadd-row {
   display: flex;
   gap: 8px;
-  padding: 6px;
+  padding: 7px;
   border-radius: 999px;
   background: var(--island);
-  box-shadow: inset 0 0 0 1px var(--line);
+  box-shadow: var(--shadow-object);
   transition: box-shadow 200ms var(--ease-out);
 }
 
 .quickadd-row:focus-within {
   box-shadow:
-    inset 0 0 0 1px var(--line),
-    0 0 0 2px var(--focus-ring);
+    0 0 0 3px var(--focus-ring),
+    var(--shadow-object);
 }
 
 .quickadd input {
   flex: 1;
   min-width: 0;
-  padding: 0 14px;
+  padding: 0 16px;
   border: 0;
   outline: none;
   background: transparent;
-  color: var(--ink);
+  color: oklch(0.97 0 0);
   font: 450 1.0625rem / 1 var(--font);
   letter-spacing: 0.01em;
+}
+
+.quickadd .button.primary,
+.download-card .button {
+  background: var(--accent);
+  color: oklch(from var(--accent) 0.2 calc(c * 0.3) h);
+  box-shadow: none;
+}
+
+.quickadd .button.primary svg,
+.download-card .button svg {
+  color: currentColor;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .quickadd .button.primary:hover,
+  .download-card .button:hover {
+    background: oklch(from var(--accent) calc(l + 0.05) c h);
+  }
 }
 
 .parsed {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  min-height: 32px;
-  margin: 14px 0 0;
+  min-height: 34px;
+  margin: 16px 0 0;
   padding: 0;
   list-style: none;
 }
@@ -710,50 +826,55 @@ h3 {
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  height: 32px;
-  padding: 0 13px;
+  height: 34px;
+  padding: 0 14px;
   border-radius: 999px;
-  background: oklch(1 0 0 / 0.08);
+  background: var(--white);
+  box-shadow:
+    inset 0 0 0 1px var(--line),
+    0 2px 6px oklch(0.2 0.03 230 / 0.06);
   font-size: 0.875rem;
+  font-weight: 500;
   color: var(--ink);
 }
 
 .parsed li[data-key="title"] {
-  background: transparent;
-  box-shadow: inset 0 0 0 1px var(--line);
+  background: var(--island);
+  box-shadow: none;
+  color: oklch(0.97 0 0);
   font-weight: 600;
 }
 
 .parsed li.muted {
-  color: var(--ink-3);
+  color: oklch(0.72 0 0);
   font-weight: 400;
 }
 
 .parsed .dot {
-  width: 8px;
-  height: 8px;
+  width: 9px;
+  height: 9px;
   border-radius: 50%;
   background: var(--tint);
 }
 
 @media (prefers-reduced-motion: no-preference) {
   .parsed li {
-    animation: chip-in 240ms var(--ease-out) both;
-    animation-delay: calc(var(--i, 0) * 40ms);
+    animation: chip-in 260ms var(--ease-out) both;
+    animation-delay: calc(var(--i, 0) * 45ms);
   }
 }
 
 @keyframes chip-in {
   from {
     opacity: 0;
-    scale: 0.94;
-    filter: blur(3px);
+    scale: 0.9;
+    translate: 0 6px;
   }
 }
 
 .syntax {
   margin-top: 28px;
-  max-width: 560px;
+  max-width: 580px;
 }
 
 .syntax summary {
@@ -762,6 +883,7 @@ h3 {
   gap: 8px;
   color: var(--ink-2);
   font-size: 0.9375rem;
+  font-weight: 500;
   cursor: pointer;
   list-style: none;
 }
@@ -774,8 +896,8 @@ h3 {
   content: "";
   width: 7px;
   height: 7px;
-  border-right: 1.6px solid currentColor;
-  border-bottom: 1.6px solid currentColor;
+  border-right: 1.8px solid currentColor;
+  border-bottom: 1.8px solid currentColor;
   rotate: -45deg;
   transition: rotate 200ms var(--ease-out);
 }
@@ -789,6 +911,9 @@ h3 {
   grid-template-columns: auto 1fr;
   gap: 12px 24px;
   margin: 20px 0 0;
+  padding: 22px 24px;
+  border-radius: 24px;
+  background: var(--day-2);
   font-size: 0.9375rem;
 }
 
@@ -814,46 +939,52 @@ h3 {
   }
 }
 
-/* ---------- Focus: the dial ---------- */
+/* ---------- Focus: the Study list's violet around a black dial ---------- */
 
 .focus {
+  --ink: oklch(0.22 0.06 295);
+  --ink-2: oklch(0.36 0.07 295);
+  --ink-3: oklch(0.44 0.08 295);
+  --line: oklch(0.3 0.08 295 / 0.14);
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
   gap: clamp(40px, 8vw, 128px);
   align-items: center;
+  background: oklch(0.925 0.045 295);
 }
 
 .focus-dial {
   position: relative;
   display: grid;
   place-items: center;
-  width: clamp(260px, 32vw, 400px);
+  width: clamp(270px, 33vw, 420px);
   aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--island);
+  box-shadow: var(--shadow-object);
 }
 
 .focus-ring {
   position: absolute;
-  inset: 0;
+  inset: 14px;
   rotate: -90deg;
 }
 
 .focus-ring circle {
   fill: none;
-  stroke-width: 2.4;
+  stroke-width: 2.6;
 }
 
 .focus-track {
-  stroke: oklch(1 0 0 / 0.08);
+  stroke: oklch(1 0 0 / 0.1);
 }
 
 .focus-progress {
-  stroke: var(--soul);
+  stroke: oklch(0.72 0.14 295);
   stroke-linecap: round;
   stroke-dasharray: 1;
   stroke-dashoffset: calc(1 - var(--progress, 0));
-  transition:
-    stroke-dashoffset 1s linear,
-    stroke 300ms var(--ease-out);
+  transition: stroke-dashoffset 1s linear;
 }
 
 .focus:not([data-active]) .focus-progress {
@@ -863,26 +994,26 @@ h3 {
 .focus-readout {
   display: grid;
   justify-items: center;
-  gap: 6px;
+  gap: 8px;
   text-align: center;
 }
 
 .focus-time {
-  font: 600 clamp(3.75rem, 2rem + 5vw, 6rem) / 1 var(--font-display);
+  font: 700 clamp(3.75rem, 2rem + 5vw, 6rem) / 1 var(--font-display);
   letter-spacing: -0.03em;
   font-variant-numeric: tabular-nums;
-  color: var(--ink-3);
+  color: oklch(0.75 0 0);
   transition: color 300ms var(--ease-out);
 }
 
 .focus[data-running] .focus-time {
-  color: var(--ink);
+  color: oklch(0.98 0 0);
 }
 
 .focus-task {
-  max-width: 22ch;
+  max-width: 20ch;
   font-size: 0.9375rem;
-  color: var(--ink-3);
+  color: oklch(0.78 0.07 295);
 }
 
 @media (max-width: 820px) {
@@ -896,22 +1027,18 @@ h3 {
   }
 }
 
-/* ---------- Music: the player and the lyrics ---------- */
+/* ---------- Music: the field takes the playing song's colour ---------- */
 
 .music {
+  --ink: oklch(from var(--music-tint) 0.22 0.05 h);
+  --ink-2: oklch(from var(--music-tint) 0.36 0.06 h);
+  --ink-3: oklch(from var(--music-tint) 0.44 0.07 h);
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
   gap: clamp(40px, 6vw, 104px);
   align-items: center;
+  background: oklch(from var(--music-tint) 0.925 0.06 h);
   transition: --music-tint 900ms var(--ease-out);
-}
-
-.music-light {
-  position: absolute;
-  inset: 0 -20%;
-  z-index: -1;
-  background: radial-gradient(42% 46% at 72% 50%, color-mix(in oklch, var(--music-tint) 13%, transparent), transparent);
-  pointer-events: none;
 }
 
 .player {
@@ -922,16 +1049,18 @@ h3 {
   max-width: 460px;
   margin-top: 32px;
   padding: 12px 14px 12px 12px;
-  border-radius: 28px;
+  border-radius: 30px;
   background: var(--island);
+  box-shadow: var(--shadow-object);
+  color: oklch(0.97 0 0);
 }
 
 .player-art {
   width: 72px;
   height: 72px;
-  border-radius: 16px;
+  border-radius: 18px;
   object-fit: cover;
-  background: linear-gradient(160deg, oklch(0.3 0.04 250), oklch(0.18 0.03 250));
+  background: oklch(0.25 0 0);
 }
 
 .player-text {
@@ -952,7 +1081,7 @@ h3 {
 
 .player-artist {
   font-size: 0.875rem;
-  color: var(--ink-2);
+  color: oklch(0.74 0 0);
 }
 
 .player-controls {
@@ -972,9 +1101,9 @@ h3 {
 
 .lyrics-frame {
   position: relative;
-  height: clamp(360px, 52vh, 500px);
+  height: clamp(380px, 54vh, 520px);
   overflow: hidden;
-  mask-image: linear-gradient(transparent, #000 16%, #000 68%, transparent);
+  mask-image: linear-gradient(transparent, #000 15%, #000 66%, transparent);
 }
 
 .lyrics {
@@ -986,10 +1115,10 @@ h3 {
 
 .lyrics li {
   padding: 10px 0;
-  font: 700 clamp(1.5rem, 1rem + 1.5vw, 2.25rem) / 1.22 var(--font-display);
-  letter-spacing: -0.016em;
+  font: 750 clamp(1.625rem, 1rem + 1.8vw, 2.5rem) / 1.12 var(--font-display);
+  letter-spacing: -0.012em;
   color: var(--ink);
-  opacity: 0.45;
+  opacity: 0.4;
   scale: 0.97;
   transform-origin: 0 50%;
   translate: 0 var(--shift);
@@ -1003,7 +1132,7 @@ h3 {
 }
 
 .lyrics li.far {
-  filter: blur(1px);
+  filter: blur(1.2px);
 }
 
 .lyrics li.current {
@@ -1013,15 +1142,15 @@ h3 {
 }
 
 .lyrics li.note {
-  font-size: clamp(1.25rem, 1rem + 0.8vw, 1.625rem);
-  font-weight: 600;
+  font-size: clamp(1.375rem, 1rem + 0.9vw, 1.75rem);
   color: var(--ink-2);
+  opacity: 1;
   cursor: default;
 }
 
 @media (hover: hover) and (pointer: fine) {
   .lyrics li:not(.current, .note):hover {
-    opacity: 0.75;
+    opacity: 0.7;
     filter: none;
   }
 }
@@ -1034,8 +1163,8 @@ h3 {
 }
 
 .lyrics li.gap i {
-  width: 12px;
-  height: 12px;
+  width: 13px;
+  height: 13px;
   border-radius: 50%;
   background: var(--ink);
 }
@@ -1057,7 +1186,7 @@ h3 {
 @keyframes breathe {
   50% {
     scale: 1.25;
-    opacity: 0.6;
+    opacity: 0.55;
   }
 }
 
@@ -1067,43 +1196,54 @@ h3 {
   }
 
   .lyrics-frame {
-    height: 360px;
+    height: 380px;
   }
+}
+
+/* ---------- Chatbot ---------- */
+
+.chatbot {
+  background: var(--day-2);
 }
 
 /* ---------- More: the desktop tools ---------- */
 
 .tools {
+  display: grid;
+  gap: 8px;
   margin: 32px 0 0;
   padding: 0;
   list-style: none;
-  border-top: 1px solid var(--line);
-}
-
-.tools li {
-  border-bottom: 1px solid var(--line);
 }
 
 .tools button {
   display: grid;
-  grid-template-columns: 28px 112px minmax(0, 1fr);
-  align-items: baseline;
+  grid-template-columns: 44px 104px minmax(0, 1fr);
+  align-items: center;
   gap: 4px 16px;
   width: 100%;
-  padding: 18px 12px;
+  padding: 14px 18px 14px 14px;
   border: 0;
-  border-radius: 14px;
-  background: none;
+  border-radius: 22px;
+  background: var(--white);
+  box-shadow:
+    inset 0 0 0 1px var(--line),
+    0 2px 8px oklch(0.2 0.03 230 / 0.04);
   color: inherit;
   font: inherit;
   text-align: left;
   cursor: pointer;
-  transition: background-color 200ms var(--ease-out);
+  transition:
+    translate 200ms var(--ease-out),
+    box-shadow 200ms var(--ease-out);
 }
 
 @media (hover: hover) and (pointer: fine) {
   .tools button:hover {
-    background: oklch(1 0 0 / 0.045);
+    translate: 4px 0;
+    box-shadow:
+      inset 0 0 0 1px var(--line),
+      var(--shadow-pill);
   }
 
   .tools button:hover .tool-name::after {
@@ -1113,16 +1253,20 @@ h3 {
 }
 
 .tool-icon {
-  align-self: center;
-  color: var(--soul);
-  transition: color 300ms var(--ease-out);
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  background: var(--island);
+  color: var(--accent);
 }
 
-.tool-icon .icon,
-.tool-icon svg {
+.tool-icon svg,
+.privacy-icon svg {
   display: block;
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
   fill: none;
   stroke: currentColor;
   stroke-width: 1.7;
@@ -1131,15 +1275,15 @@ h3 {
 }
 
 .tool-name {
-  font-weight: 600;
+  font: 700 1.0625rem / 1.2 var(--font-display);
 }
 
 .tool-name::after {
   content: " ↑";
-  color: var(--soul);
+  display: inline-block;
+  color: var(--accent-ink);
   opacity: 0;
   translate: 0 3px;
-  display: inline-block;
   transition:
     opacity 200ms var(--ease-out),
     translate 200ms var(--ease-out);
@@ -1148,11 +1292,17 @@ h3 {
 .tool-text {
   color: var(--ink-2);
   font-size: 0.9688rem;
+  line-height: 1.5;
 }
 
 @media (max-width: 640px) {
   .tools button {
-    grid-template-columns: 28px minmax(0, 1fr);
+    grid-template-columns: 44px minmax(0, 1fr);
+    align-items: start;
+  }
+
+  .tool-icon {
+    grid-row: span 2;
   }
 
   .tool-text {
@@ -1160,13 +1310,21 @@ h3 {
   }
 }
 
-/* ---------- Personalise ---------- */
+/* ---------- Personalise: the section is the accent you pick ---------- */
+
+.personalise {
+  --ink: oklch(from var(--accent) 0.2 0.04 h);
+  --ink-2: oklch(from var(--accent) 0.3 0.05 h);
+  --ink-3: oklch(from var(--accent) 0.32 0.05 h);
+  --line: oklch(from var(--accent) 0.25 0.05 h / 0.18);
+  background: var(--accent);
+}
 
 .controls {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 500px), 1fr));
   gap: 40px 64px;
-  margin-top: 48px;
+  margin-top: 52px;
 }
 
 .control {
@@ -1180,7 +1338,8 @@ h3 {
   margin-bottom: 14px;
   padding: 0;
   font-size: 0.9375rem;
-  color: var(--ink-2);
+  font-weight: 600;
+  color: var(--ink);
 }
 
 .swatches {
@@ -1191,22 +1350,25 @@ h3 {
 
 .swatch {
   position: relative;
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   background: var(--c);
+  box-shadow:
+    inset 0 0 0 2px oklch(1 0 0 / 0.65),
+    0 2px 6px oklch(0.2 0.03 230 / 0.18);
   cursor: pointer;
-  transition: scale 120ms var(--ease-out);
+  transition: scale 140ms var(--ease-out);
 }
 
 .swatch::after {
   content: "";
   position: absolute;
-  inset: -5px;
+  inset: -6px;
   border-radius: 50%;
-  box-shadow: 0 0 0 2px var(--c);
+  box-shadow: 0 0 0 2.5px var(--ink);
   opacity: 0;
-  scale: 0.9;
+  scale: 0.85;
   transition:
     opacity 200ms var(--ease-out),
     scale 200ms var(--ease-out);
@@ -1219,7 +1381,13 @@ h3 {
 
 .swatch:has(input:focus-visible) {
   outline: 2px solid var(--ink);
-  outline-offset: 8px;
+  outline-offset: 9px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .swatch:hover {
+    scale: 1.08;
+  }
 }
 
 .swatch:active {
@@ -1235,13 +1403,15 @@ h3 {
   margin: 0;
 }
 
+/* Segmented controls are the island's tab row: black, with a graphite pill. */
 .segmented {
   display: inline-flex;
   flex-wrap: wrap;
   gap: 4px;
-  padding: 4px;
-  border-radius: 22px;
+  padding: 5px;
+  border-radius: 24px;
   background: var(--island);
+  box-shadow: var(--shadow-pill);
 }
 
 .seg {
@@ -1251,10 +1421,10 @@ h3 {
 .seg span {
   display: inline-flex;
   align-items: center;
-  min-height: 36px;
-  padding: 0 15px;
+  min-height: 38px;
+  padding: 0 16px;
   border-radius: 999px;
-  color: var(--ink-2);
+  color: oklch(0.74 0 0);
   font-size: 0.9375rem;
   font-weight: 500;
   cursor: pointer;
@@ -1264,27 +1434,31 @@ h3 {
 }
 
 .seg input:checked + span {
-  background: var(--well-strong);
-  color: var(--ink);
+  background: oklch(0.3 0 0);
+  color: oklch(0.98 0 0);
 }
 
 .seg input:focus-visible + span {
-  outline: 2px solid var(--focus-ring);
+  outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
 
 @media (hover: hover) and (pointer: fine) {
   .seg span:hover {
-    color: var(--ink);
+    color: oklch(0.98 0 0);
   }
 }
 
 /* ---------- Privacy ---------- */
 
+.privacy {
+  background: var(--white);
+}
+
 .privacy-lede {
-  max-width: 60ch;
+  max-width: 58ch;
   margin: 0;
-  font-size: clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem);
+  font-size: clamp(1.125rem, 1rem + 0.35vw, 1.25rem);
   color: var(--ink-2);
   text-wrap: pretty;
 }
@@ -1292,8 +1466,24 @@ h3 {
 .privacy-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
-  gap: 32px 56px;
-  margin-top: 56px;
+  gap: 40px 56px;
+  margin-top: 64px;
+}
+
+.privacy-icon {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  margin-bottom: 20px;
+  border-radius: 17px;
+  background: var(--island);
+  color: var(--accent);
+}
+
+.privacy-icon svg {
+  width: 26px;
+  height: 26px;
 }
 
 .privacy-grid p {
@@ -1302,19 +1492,62 @@ h3 {
   text-wrap: pretty;
 }
 
-/* ---------- Install ---------- */
+/* ---------- Install: back on the bright desktop ---------- */
+
+.install {
+  isolation: isolate;
+  background: var(--wallpaper);
+}
+
+.steps {
+  display: grid;
+  gap: 22px;
+  margin: 36px 0 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: step;
+}
+
+.steps li {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr);
+  column-gap: 18px;
+  counter-increment: step;
+}
+
+.steps li::before {
+  content: counter(step);
+  grid-row: span 2;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--island);
+  color: var(--accent);
+  font: 700 1.0625rem / 1 var(--font-display);
+}
+
+.steps strong {
+  font-weight: 600;
+  line-height: 1.45;
+  padding-top: 8px;
+}
+
+.steps span {
+  color: var(--ink-2);
+}
 
 .download-card {
   display: grid;
   justify-items: center;
   gap: 6px;
-  padding: 44px 32px 36px;
-  border-radius: 32px;
+  padding: 48px 32px 38px;
+  border-radius: 36px;
   background: var(--island);
+  color: oklch(0.97 0 0);
   text-align: center;
-  box-shadow:
-    0 0 0 1px oklch(1 0 0 / 0.06),
-    0 40px 90px oklch(0 0 0 / 0.5);
+  box-shadow: var(--shadow-object);
 }
 
 .download-card img {
@@ -1326,64 +1559,32 @@ h3 {
 }
 
 .download-name {
-  font: 650 1.75rem / 1.2 var(--font-display);
+  font: 750 2rem / 1.1 var(--font-display);
   letter-spacing: -0.02em;
 }
 
 .download-meta {
-  color: var(--ink-2);
+  color: oklch(0.74 0 0);
   font-size: 0.9375rem;
   font-variant-numeric: tabular-nums;
 }
 
 .download-card .button {
-  margin-top: 24px;
+  margin-top: 26px;
 }
 
 .download-notes {
   margin-top: 14px;
+  color: var(--accent);
   font-size: 0.9375rem;
 }
 
-.steps {
-  display: grid;
-  gap: 22px;
-  margin: 36px 0 40px;
-  padding: 0;
-  list-style: none;
-  counter-reset: step;
-}
-
-.steps li {
-  display: grid;
-  grid-template-columns: 40px minmax(0, 1fr);
-  column-gap: 18px;
-  counter-increment: step;
-}
-
-.steps li::before {
-  content: counter(step);
-  grid-row: span 2;
-  display: grid;
-  place-items: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: var(--island);
-  box-shadow: inset 0 0 0 1px var(--line);
-  color: var(--soul);
-  font: 600 1rem / 1 var(--font-display);
-  transition: color 300ms var(--ease-out);
-}
-
-.steps strong {
-  font-weight: 600;
-  line-height: 1.45;
-  padding-top: 6px;
-}
-
-.steps span {
-  color: var(--ink-2);
+/* A wallpaper set in the demo becomes the desktop: the hero, More and Install sections. */
+.has-wallpaper :is(.hero, .more, .install) {
+  --ink-3: var(--ink-2);
+  background:
+    linear-gradient(oklch(0.985 0.006 200 / 0.62), oklch(0.985 0.006 200 / 0.62)),
+    var(--desktop) center / cover;
 }
 
 /* ---------- Footer ---------- */
@@ -1393,10 +1594,8 @@ h3 {
   flex-wrap: wrap;
   justify-content: space-between;
   gap: 8px 32px;
-  width: var(--page);
-  margin: 0 auto;
-  padding: 36px 0 56px;
-  border-top: 1px solid var(--line);
+  padding: 36px max(var(--gutter), (100% - 1180px) / 2) 56px;
+  background: var(--day);
   font-size: 0.875rem;
   color: var(--ink-3);
 }
@@ -1409,31 +1608,35 @@ h3 {
   color: var(--ink-2);
 }
 
-/* ---------- First load: the page rises out of the dark, once ---------- */
+/* ---------- First load: the page arrives, and the island grows into place, once ---------- */
 
 @media (prefers-reduced-motion: no-preference) {
-  .hero > :not(.lake) {
+  .hero > :not(.stage) {
     animation: rise 800ms var(--ease-out) backwards;
   }
 
   .hero > :nth-child(2) {
-    animation-delay: 80ms;
+    animation-delay: 70ms;
   }
 
   .hero > :nth-child(3) {
-    animation-delay: 160ms;
+    animation-delay: 140ms;
   }
 
   .hero > :nth-child(4) {
-    animation-delay: 240ms;
+    animation-delay: 210ms;
   }
 
   .hero > :nth-child(5) {
-    animation-delay: 300ms;
+    animation-delay: 260ms;
   }
 
-  .lake {
-    animation: dawn 1400ms var(--ease-out) 200ms backwards;
+  .hero-island {
+    animation: grow 1000ms var(--ease-island) 380ms backwards;
+  }
+
+  .hero-island > :not(.hero-soul) {
+    animation: rise 500ms var(--ease-out) 820ms backwards;
   }
 }
 
@@ -1445,9 +1648,9 @@ h3 {
   }
 }
 
-@keyframes dawn {
+@keyframes grow {
   from {
-    opacity: 0;
+    width: calc(var(--h) * 1.4);
   }
 }
 

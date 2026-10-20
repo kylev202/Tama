@@ -121,17 +121,10 @@ function restartDemo() {
   frame.addEventListener('load', () => frame.classList.remove('quitting'), { once: true });
 }
 
-/** Setting a wallpaper in the demo tints this page, softly, behind everything. */
+/** Setting a wallpaper in the demo makes it this page's desktop: the hero, More and Install. */
 function setWallpaper(url) {
-  let layer = document.querySelector('.wallpaper');
-  if (!layer) {
-    layer = document.createElement('div');
-    layer.className = 'wallpaper';
-    layer.setAttribute('aria-hidden', 'true');
-    document.body.prepend(layer);
-  }
-  layer.style.backgroundImage = `url("${url}")`;
-  requestAnimationFrame(() => layer.classList.add('on'));
+  document.documentElement.style.setProperty('--desktop', `url("${url}")`);
+  document.documentElement.classList.add('has-wallpaper');
 }
 
 /* Buttons that drive the demo. */
@@ -152,10 +145,11 @@ document.addEventListener('click', (e) => {
   seen();
 });
 
-/* The hero: the soul over the lake, at seven times its island size. */
+/* The hero: the island at four times its size. Its soul watches the pointer, and clicking it
+   plays a song in the real island and opens it on Music. */
 
 const heroCanvas = $('hero-soul');
-const heroSoul = createSoul(heroCanvas, { scale: 7 });
+const heroSoul = createSoul(heroCanvas, { scale: 4.5 });
 let restless = 0;
 document.querySelector('.hero').addEventListener(
   'pointermove',
@@ -167,7 +161,13 @@ document.querySelector('.hero').addEventListener(
   },
   { passive: true },
 );
-heroCanvas.addEventListener('click', () => heroSoul.react('celebrate'));
+$('hero-island').addEventListener('click', () => {
+  heroSoul.react('celebrate');
+  if (!demo) return;
+  demo.music.play();
+  demo.open('music');
+  seen();
+});
 new IntersectionObserver(([entry]) => (entry.isIntersecting ? heroSoul.start() : heroSoul.stop())).observe(heroCanvas);
 
 /* Quick add: the app's own parser, live as you type. */
@@ -275,7 +275,9 @@ function renderPlayer() {
   $('player-artist').textContent = now ? [now.artist, now.album].filter(Boolean).join(' · ') : 'Low Tide Radio · Night Ferry';
   const art = $('player-art');
   if (media.art && art.getAttribute('src') !== media.art) art.src = media.art;
-  musicSection.style.setProperty('--music-tint', media.tint ?? 'var(--soul)');
+  // Until a song brings its own colour, the field keeps the first song's amber.
+  if (media.tint) musicSection.style.setProperty('--music-tint', media.tint);
+  else musicSection.style.removeProperty('--music-tint');
 }
 
 function renderLyrics(lyrics) {
