@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tama</title>
+    <link rel="stylesheet" href="css/tokens.css" />
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/island.css" />
+    <link rel="stylesheet" href="css/panels.css" />
+    <script type="module" src="js/main.js"></script>
+  </head>
+  <body>
+    <div class="ear left" id="ear-left" aria-hidden="true"></div>
+    <div class="ear right" id="ear-right" aria-hidden="true"></div>
+    <div class="island" id="island" data-state="rest">
+      <div class="bar" id="bar">
+        <div class="bar-lead" id="bar-lead"></div>
+        <canvas class="soul" id="soul" aria-hidden="true"></canvas>
+        <div class="bar-trail" id="bar-trail"></div>
+      </div>
+      <section class="layer layer-peek" id="layer-peek" aria-label="Quick controls" inert></section>
+      <section class="layer layer-open" id="layer-open" aria-label="Tama" inert>
+        <nav class="tabs" id="tabs" role="tablist" aria-label="Sections"></nav>
+        <div class="views" id="views"></div>
+      </section>
+      <section class="layer layer-alert" id="layer-alert" role="alert" inert></section>
+    </div>
+  </body>
+</html>

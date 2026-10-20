@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Tama: a Dynamic Island for Windows</title>
+    <meta
+      name="description"
+      content="Tama puts a Dynamic Island at the top of your Windows screen, with a small soul inside: tasks and reminders, a focus timer, now playing with synced lyrics, and a chatbot that sets up routines. Free, 1.5 MB."
+    />
+    <meta name="theme-color" content="#14181f" />
+    <link rel="canonical" href="https://kylev202.github.io/tama/" />
+    <link rel="icon" href="img/icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="img/icon-256.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Tama: a Dynamic Island for Windows" />
+    <meta property="og:description" content="A small soul at the top of your screen for tasks, focus, music with synced lyrics and routines. Free for Windows." />
+    <meta property="og:url" content="https://kylev202.github.io/tama/" />
+    <meta property="og:image" content="https://kylev202.github.io/tama/img/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="stylesheet" href="site.css" />
+    <script type="module" src="site.js"></script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Tama",
+        "description": "A Dynamic Island for Windows with tasks and reminders, a focus timer, now playing with synced lyrics, and a chatbot that sets up routines.",
+        "applicationCategory": "ProductivityApplication",
+        "operatingSystem": "Windows 11",
+        "softwareVersion": "1.0.0",
+        "fileSize": "1.5 MB",
+        "downloadUrl": "https://github.com/kylev202/tama/releases/download/v1.0.0/Tama_1.0.0_x64-setup.exe",
+        "url": "https://kylev202.github.io/tama/",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+      }
+    </script>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+
+    <!-- The real island, running the app's own front end with demo data. -->
+    <div class="island-dock">
+      <iframe class="island-demo" id="island-demo" src="demo/" title="Tama, running live with demo data"></iframe>
+    </div>
+
+    <header class="topbar">
+      <a class="brand" href="#top" aria-label="Tama, back to top">
+        <svg class="brand-mark" viewBox="0 0 1024 1024" aria-hidden="true"><use href="#soul-mark" /></svg>
+        <span>Tama</span>
+      </a>
+      <nav class="topnav" aria-label="Site">
+        <a class="topnav-link" href="https://github.com/kylev202/tama">Source</a>
+        <a class="button small primary" href="#install" data-download>Download</a>
+      </nav>
+    </header>
+
+    <main id="main">
+      <section class="hero" id="top" aria-labelledby="hero-title">
+        <p class="hint" id="hint">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M6.5 10.5 12 5l5.5 5.5" /></svg>
+          <span class="hint-mouse">That's Tama up there. Hover it, or scroll down on it.</span>
+          <span class="hint-touch">That's Tama up there. Tap it.</span>
+        </p>
+        <h1 id="hero-title">A Dynamic Island for Windows, with a soul inside.</h1>
+        <p class="lede">
+          Tama sits at the top of your screen and shows what's happening now: a focus timer, the song that's playing, the next thing due. Hover it
+          for quick controls. Click it to plan your day.
+        </p>
+        <div class="actions">
+          <a class="button primary" href="https://github.com/kylev202/tama/releases/download/v1.0.0/Tama_1.0.0_x64-setup.exe" data-download>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4.5v11M7 11l5 5 5-5M5 19.5h14" /></svg>
+            Download for Windows
+          </a>
+          <a class="button" href="https://github.com/kylev202/tama">View the source</a>
+        </div>
+        <p class="meta">Free · Version 1.0.0 · 1.5 MB · Windows 11, 64-bit</p>
+
+        <div class="lake" aria-hidden="true">
+          <canvas class="hero-soul" id="hero-soul"></canvas>
+          <div class="horizon"></div>
+        </div>
+      </section>
+
+      <section class="band tasks" id="tasks" aria-labelledby="tasks-title">
+        <div class="split">
+          <div class="copy">
+            <h2 id="tasks-title">Plan the day without leaving the desktop.</h2>
+            <p>
+              Today, the next seven days and a month calendar, with separate Work and Study lists. Tasks take steps, notes and repeats, remind you
+              when they're due, and late ones move to today in one click.
+            </p>
+            <form class="quickadd" id="quickadd" autocomplete="off">
+              <label for="quickadd-input">Type a task the way you'd say it</label>
+              <div class="quickadd-row">
+                <input id="quickadd-input" name="task" type="text" value="Essay draft fri 9am #study !high" spellcheck="false" />
+                <button class="button primary" type="submit" data-demo>Add to Tama</button>
+              </div>
+              <ul class="parsed" id="parsed" aria-live="polite" aria-label="What Tama picked out"></ul>
+            </form>
+            <details class="syntax">
+              <summary>What it understands</summary>
+              <dl>
+                <dt><code>#work</code> <code>#study</code></dt>
+                <dd>Which list</dd>
+                <dt><code>!</code> <code>!!</code> <code>!!!</code> or <code>!high</code></dt>
+                <dd>Priority</dd>
+                <dt><code>today</code> <code>tomorrow</code> <code>fri</code> <code>next week</code></dt>
+                <dd>Day</dd>
+                <dt><code>9am</code> <code>15:30</code> <code>at 3</code></dt>
+                <dd>Time, which sets a reminder</dd>
+                <dt><code>in 30 min</code> <code>in 3 days</code></dt>
+                <dd>From now</dd>
+                <dt><code>daily</code> <code>every weekday</code> <code>every fri</code></dt>
+                <dd>Repeat: finishing one schedules the next</dd>
+              </dl>
+            </details>
+            <p class="try">
+              <button class="link-button" type="button" data-demo data-action="remind">Show a reminder in the island</button>
+            </p>
+          </div>
+          <figure class="shot">
+            <img src="img/tasks.webp" width="480" height="468" alt="Tama's Tasks panel: today's list with work and study tasks, a progress ring and a study streak." loading="lazy" />
+          </figure>
+        </div>
+      </section>
+
+      <section class="band focus" id="focus" aria-labelledby="focus-title">
+        <div class="focus-dial" aria-hidden="true">
+          <svg class="focus-ring" viewBox="0 0 120 120">
+            <circle class="focus-track" cx="60" cy="60" r="56" />
+            <circle class="focus-progress" id="focus-progress" cx="60" cy="60" r="56" pathLength="1" />
+          </svg>
+          <div class="focus-readout">
+            <span class="focus-time" id="focus-time">25:00</span>
+            <span class="focus-task" id="focus-task">Read chapter 4: graphs</span>
+          </div>
+        </div>
+        <div class="copy">
+          <h2 id="focus-title">A focus timer you can see without looking for it.</h2>
+          <p>
+            Pick a task and start 25 minutes. The countdown stays in the closed island, the soul closes its eyes, and Tama offers a break when time
+            is up. Focus minutes add up per list and keep your study streak going.
+          </p>
+          <div class="actions" id="focus-actions">
+            <button class="button primary" type="button" data-demo data-action="focus-start">Start a focus session</button>
+            <button class="button" type="button" data-demo data-action="focus-pause" hidden>Pause</button>
+            <button class="button" type="button" data-demo data-action="focus-resume" hidden>Resume</button>
+            <button class="button" type="button" data-demo data-action="focus-stop" hidden>Stop</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="band music" id="music" aria-labelledby="music-title">
+        <div class="music-light" aria-hidden="true"></div>
+        <div class="copy">
+          <h2 id="music-title">Lyrics that keep time with the song.</h2>
+          <p>
+            Tama shows what's playing in any app that reports to Windows, like Spotify, a browser tab or most players, with play, pause, skip and a
+            seek bar. Lyrics come from LRCLIB and scroll with the song. Tap a line to jump to it.
+          </p>
+          <div class="player" id="player">
+            <img class="player-art" id="player-art" alt="" width="72" height="72" />
+            <div class="player-text">
+              <span class="player-title" id="player-title">Lantern Hours</span>
+              <span class="player-artist" id="player-artist">Low Tide Radio</span>
+            </div>
+            <div class="player-controls">
+              <button class="icon-button" type="button" data-demo data-action="previous" aria-label="Previous song">
+                <svg viewBox="0 0 24 24"><path d="M6.5 6v12" /><path d="M18 6.6v10.8a.8.8 0 0 1-1.2.7l-8.4-5.4a.8.8 0 0 1 0-1.4l8.4-5.4a.8.8 0 0 1 1.2.7z" fill="currentColor" stroke="none" /></svg>
+              </button>
+              <button class="icon-button solid" type="button" data-demo data-action="toggle" id="player-toggle" aria-label="Play">
+                <svg viewBox="0 0 24 24" class="when-paused"><path d="M8.5 5.8v12.4a.8.8 0 0 0 1.2.7l9.6-6.2a.8.8 0 0 0 0-1.4L9.7 5.1a.8.8 0 0 0-1.2.7z" fill="currentColor" stroke="none" /></svg>
+                <svg viewBox="0 0 24 24" class="when-playing"><rect x="6.5" y="5" width="4" height="14" rx="1.2" fill="currentColor" stroke="none" /><rect x="13.5" y="5" width="4" height="14" rx="1.2" fill="currentColor" stroke="none" /></svg>
+              </button>
+              <button class="icon-button" type="button" data-demo data-action="next" aria-label="Next song">
+                <svg viewBox="0 0 24 24"><path d="M17.5 6v12" /><path d="M6 6.6v10.8a.8.8 0 0 0 1.2.7l8.4-5.4a.8.8 0 0 0 0-1.4L7.2 5.9A.8.8 0 0 0 6 6.6z" fill="currentColor" stroke="none" /></svg>
+              </button>
+            </div>
+          </div>
+          <p class="fineprint">These songs, and their words, were made up for this page.</p>
+        </div>
+        <div class="lyrics-frame">
+          <ol class="lyrics" id="lyrics" aria-label="Lyrics"></ol>
+        </div>
+      </section>
+
+      <section class="band chatbot" id="chatbot" aria-labelledby="chatbot-title">
+        <div class="split reverse">
+          <div class="copy">
+            <h2 id="chatbot-title">Routines, set up by asking.</h2>
+            <p>
+              Tell the chatbot what to open and when. “Every weekday at 9:00, open Spotify.” “Move it to 8:30.” “Run my morning routine now.” A
+              routine opens apps and web pages at a time you choose, on the days you pick or just once.
+            </p>
+            <p>
+              It runs gpt-oss-120b on Groq's free tier, with a free API key you add yourself. Nothing is sent until you add one.
+            </p>
+            <p class="try">
+              <button class="link-button" type="button" data-demo data-action="open" data-tab="chatbot">Try the examples in the island</button>
+            </p>
+          </div>
+          <figure class="shot">
+            <img src="img/chatbot.webp" width="480" height="468" alt="The Chatbot panel: asked to open Spotify every weekday at 9:00, it saves the routine and confirms it." loading="lazy" />
+          </figure>
+        </div>
+      </section>
+
+      <section class="band more" id="more" aria-labelledby="more-title">
+        <div class="split">
+          <div class="copy">
+            <h2 id="more-title">And the small things a desktop needs.</h2>
+            <ul class="tools">
+              <li>
+                <button type="button" data-demo data-action="open" data-tab="clipboard">
+                  <span class="tool-icon" data-icon="clipboard"></span>
+                  <span class="tool-name">Clipboard</span>
+                  <span class="tool-text">Your recent text copies, kept in memory only. Copies from password managers are skipped.</span>
+                </button>
+              </li>
+              <li>
+                <button type="button" data-demo data-action="open" data-tab="launch">
+                  <span class="tool-icon" data-icon="search"></span>
+                  <span class="tool-name">Launch</span>
+                  <span class="tool-text">Search your Start menu apps or the web, and pin the ones you open most.</span>
+                </button>
+              </li>
+              <li>
+                <button type="button" data-demo data-action="open" data-tab="wallpapers">
+                  <span class="tool-icon" data-icon="wallpaper"></span>
+                  <span class="tool-name">Wallpapers</span>
+                  <span class="tool-text">Pick a folder, then click an image to set it on every monitor. Try it here: it changes this page.</span>
+                </button>
+              </li>
+              <li>
+                <button type="button" data-demo data-action="open" data-tab="stats">
+                  <span class="tool-icon" data-icon="stats"></span>
+                  <span class="tool-name">Stats</span>
+                  <span class="tool-text">CPU, GPU, memory, disk and network, each with the last minute graphed. It only samples while open.</span>
+                </button>
+              </li>
+              <li>
+                <button type="button" data-demo data-action="open" data-tab="settings">
+                  <span class="tool-icon" data-icon="settings"></span>
+                  <span class="tool-name">Settings</span>
+                  <span class="tool-text">Volume, dark mode, sounds, start with Windows, and shortcuts into Windows Settings.</span>
+                </button>
+              </li>
+            </ul>
+          </div>
+          <figure class="shot">
+            <img src="img/stats.webp" width="480" height="468" alt="The Stats section: CPU, GPU, memory, disk and network, each with a one-minute graph." loading="lazy" />
+          </figure>
+        </div>
+      </section>
+
+      <section class="band personalise" id="personalise" aria-labelledby="personalise-title">
+        <div class="copy">
+          <h2 id="personalise-title">Make it yours. The island is the preview.</h2>
+          <p>Ten accents, four themes, three styles and a few quiet backgrounds. Change them here and watch the island at the top of this page.</p>
+        </div>
+        <div class="controls" id="controls">
+          <fieldset class="control">
+            <legend>Accent</legend>
+            <div class="swatches" id="accents"></div>
+          </fieldset>
+          <fieldset class="control">
+            <legend>Style</legend>
+            <div class="segmented" id="styles"></div>
+          </fieldset>
+          <fieldset class="control">
+            <legend>Theme</legend>
+            <div class="segmented" id="surfaces"></div>
+          </fieldset>
+          <fieldset class="control">
+            <legend>Background</legend>
+            <div class="segmented" id="decorations"></div>
+          </fieldset>
+        </div>
+      </section>
+
+      <section class="band privacy" id="privacy" aria-labelledby="privacy-title">
+        <h2 id="privacy-title">Your day stays on your PC.</h2>
+        <p class="privacy-lede">No account and no analytics. Tasks, routines, focus history and settings live in Tama's storage on your PC. Two things go online, and only when you use them.</p>
+        <div class="privacy-grid">
+          <div>
+            <h3>Lyrics, from LRCLIB</h3>
+            <p>The song's title, artist, album and length, once per song. The answer is cached, so a song never goes online twice. The lyrics button in Music turns this off.</p>
+          </div>
+          <div>
+            <h3>The Chatbot, through Groq</h3>
+            <p>What you type, your routines and the names of matching apps, only after you add your own API key. The key stays in Windows Credential Manager.</p>
+          </div>
+          <div>
+            <h3>Nothing else</h3>
+            <p>Clipboard history and chats are kept in memory and gone when Tama quits. This page loads no fonts, scripts or trackers from anywhere else either.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="band install" id="install" aria-labelledby="install-title">
+        <div class="split">
+          <div class="copy">
+            <h2 id="install-title">Install in under a minute.</h2>
+            <ol class="steps">
+              <li>
+                <strong>Download the installer.</strong>
+                <span>Tama_1.0.0_x64-setup.exe, 1.5 MB.</span>
+              </li>
+              <li>
+                <strong>Run it.</strong>
+                <span>It installs for your account only, so it doesn't ask for admin rights.</span>
+              </li>
+              <li>
+                <strong>If SmartScreen stops it, choose More info, then Run anyway.</strong>
+                <span>Tama isn't code-signed yet, so Windows doesn't recognise it.</span>
+              </li>
+              <li>
+                <strong>Look at the top of your main screen.</strong>
+                <span>Tama starts with Windows. Turn that off in Settings or from the tray icon.</span>
+              </li>
+            </ol>
+            <p class="fineprint">
+              Made for Windows 11, 64-bit. It needs the WebView2 runtime, which Windows 11 already has. To uninstall: Settings, Apps, Installed apps,
+              Tama.
+            </p>
+          </div>
+          <aside class="download-card" aria-label="Download Tama">
+            <img src="img/icon.svg" width="96" height="96" alt="" />
+            <p class="download-name">Tama 1.0.0</p>
+            <p class="download-meta">Windows 11 · 64-bit · 1.5 MB · Free</p>
+            <a class="button primary large" href="https://github.com/kylev202/tama/releases/download/v1.0.0/Tama_1.0.0_x64-setup.exe" data-download>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4.5v11M7 11l5 5 5-5M5 19.5h14" /></svg>
+              Download the installer
+            </a>
+            <a class="download-notes" href="https://github.com/kylev202/tama/releases/tag/v1.0.0">Read the release notes</a>
+          </aside>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>Tama 1.0.0 · © 2026 kylev202. All rights reserved.</p>
+      <p>
+        <a href="https://github.com/kylev202/tama">Source on GitHub</a> ·
+        <a href="https://github.com/kylev202/tama/releases">Releases</a> ·
+        Inspired by the island in <a href="https://hitodama.in/">Hitodama</a>.
+      </p>
+    </footer>
+
+    <svg width="0" height="0" style="position: absolute" aria-hidden="true">
+      <defs>
+        <radialGradient id="mark-body" cx="0.44" cy="0.66" r="0.7">
+          <stop offset="0" stop-color="#f2fdff" />
+          <stop offset="0.42" stop-color="#9fe6f2" />
+          <stop offset="1" stop-color="#1f8ea6" />
+        </radialGradient>
+        <symbol id="soul-mark" viewBox="0 0 1024 1024">
+          <path
+            d="M512 846C367 846 268 746 268 612C268 500 340 436 410 368C468 312 506 256 520 188C526 158 548 132 588 118C568 150 566 186 586 226C614 284 676 336 714 400C744 452 756 528 756 612C756 746 657 846 512 846Z"
+            fill="url(#mark-body)"
+          />
+          <rect x="424" y="566" width="50" height="104" rx="25" fill="#082a33" />
+          <rect x="550" y="566" width="50" height="104" rx="25" fill="#082a33" />
+        </symbol>
+      </defs>
+    </svg>
+  </body>
+</html>

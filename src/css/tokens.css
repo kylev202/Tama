@@ -1,0 +1,142 @@
+/* Design tokens. See DESIGN.md for roles and contrast notes. */
+:root {
+  color-scheme: dark;
+
+  /* Surfaces */
+  --island: oklch(0 0 0);
+  --well: oklch(0.2 0 0);
+  --well-hover: oklch(0.23 0 0);
+  --well-strong: oklch(0.27 0 0);
+  --line: oklch(1 0 0 / 0.09);
+
+  /* Text */
+  --ink: oklch(0.97 0 0);
+  --ink-2: oklch(0.74 0 0);
+  --ink-3: oklch(0.64 0 0);
+
+  /* Brand and meaning. The accent is chosen in Personalise (set on <html> by appearance.js);
+     everything soul-coloured derives from it. */
+  --accent: oklch(0.84 0.105 200);
+  --soul: var(--accent);
+  --soul-hover: oklch(from var(--soul) calc(l + 0.05) c h);
+  --soul-deep: oklch(from var(--accent) 0.45 calc(c * 0.7) h);
+  --on-soul: oklch(from var(--accent) 0.2 calc(c * 0.3) h);
+  --focus-ring: color-mix(in oklch, var(--soul) 55%, transparent);
+  --work: oklch(0.7 0.13 52);
+  --study: oklch(0.7 0.14 295);
+  --danger: oklch(0.7 0.18 25);
+  /* Lightness of colours taken from album art, and of lyric lines that aren't being sung. */
+  --tint-l: 0.8;
+  --lyric-dim: 0.5;
+
+  /* Island placement: 6px below the top edge, at the chosen size. */
+  --island-top: 6px;
+  --island-scale: 1;
+
+  /* Type: one family, Display optical size for numerals and headings */
+  --font: "Segoe UI Variable Text", "Segoe UI Variable", "Segoe UI", system-ui, sans-serif;
+  --font-display: "Segoe UI Variable Display", "Segoe UI Variable", "Segoe UI", system-ui, sans-serif;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.25rem;
+  --text-xl: 1.75rem;
+  --text-display: 3rem;
+  --text-lyric: 1.375rem;
+
+  /* 4pt spacing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-pill: 999px;
+
+  /* Motion (the island itself runs on a JS spring) */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-press: 120ms;
+  --dur-in: 200ms;
+  --dur-out: 120ms;
+  /* A spring (mass 0.9, stiffness 90, damping 15: just under 1% overshoot) sampled for
+     CSS, so lyric lines glide on the compositor. Lasts 900ms. */
+  --ease-spring: linear(0, 0.0272, 0.0946, 0.185, 0.2861, 0.3891, 0.488, 0.5792, 0.6608, 0.7318, 0.7922, 0.8427, 0.8839, 0.917, 0.943, 0.9631, 0.9782, 0.9892, 0.9971, 1.0024, 1.0058, 1.0077, 1.0086, 1.0088, 1.0084, 1.0077, 1.0069, 1.006, 1.0051, 1.0043, 1.0035, 1.0028, 1.0022, 1.0017, 1.0013, 1.0009, 1);
+}
+
+/* Personalise: themes. Black is the default above. */
+:root[data-surface="graphite"] {
+  --island: oklch(0.2 0 0);
+  --well: oklch(0.26 0 0);
+  --well-hover: oklch(0.29 0 0);
+  --well-strong: oklch(0.33 0 0);
+  --line: oklch(1 0 0 / 0.1);
+}
+
+:root[data-surface="midnight"] {
+  --island: oklch(0.19 0.035 265);
+  --well: oklch(0.25 0.04 265);
+  --well-hover: oklch(0.28 0.042 265);
+  --well-strong: oklch(0.32 0.045 265);
+  --line: oklch(1 0 0 / 0.1);
+}
+
+/* Light: dark ink, and darker versions of the colours that carry text or thin strokes. */
+:root[data-surface="light"] {
+  color-scheme: light;
+  --island: oklch(0.985 0 0);
+  --well: oklch(0.94 0 0);
+  --well-hover: oklch(0.915 0 0);
+  --well-strong: oklch(0.88 0 0);
+  --line: oklch(0 0 0 / 0.09);
+  --ink: oklch(0.2 0 0);
+  --ink-2: oklch(0.42 0 0);
+  --ink-3: oklch(0.5 0 0);
+  --soul: oklch(from var(--accent) 0.52 max(c, 0.03) h);
+  --soul-hover: oklch(from var(--soul) calc(l - 0.05) c h);
+  --on-soul: oklch(0.99 0 0);
+  --work: oklch(0.58 0.14 52);
+  --study: oklch(0.52 0.17 295);
+  --danger: oklch(0.52 0.2 25);
+  --tint-l: 0.5;
+  --lyric-dim: 0.56;
+}
+
+/* Personalise: styles. The notch is joined to the top edge. */
+:root[data-style="notch"] {
+  --island-top: 0px;
+}
+
+/* Personalise: fonts. Each is a Windows 11 system font, so nothing is downloaded. The stacks
+   are variables so Personalise can show each name in its own font. */
+:root {
+  --font-segoe: "Segoe UI Variable Text", "Segoe UI Variable", "Segoe UI", system-ui, sans-serif;
+  --font-bahnschrift: "Bahnschrift", "Segoe UI", sans-serif;
+  --font-sitka: "Sitka Text", "Sitka", Georgia, serif;
+  --font-georgia: Georgia, "Sitka Text", serif;
+  --font-cascadia: "Cascadia Mono", "Cascadia Code", Consolas, monospace;
+}
+
+:root[data-font="bahnschrift"] {
+  --font: var(--font-bahnschrift);
+  --font-display: var(--font-bahnschrift);
+}
+
+:root[data-font="sitka"] {
+  --font: var(--font-sitka);
+  --font-display: "Sitka Display", "Sitka", Georgia, serif;
+}
+
+:root[data-font="georgia"] {
+  --font: var(--font-georgia);
+  --font-display: var(--font-georgia);
+}
+
+:root[data-font="cascadia"] {
+  --font: var(--font-cascadia);
+  --font-display: var(--font-cascadia);
+}

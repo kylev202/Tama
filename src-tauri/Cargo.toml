@@ -1,0 +1,28 @@
+[package]
+name = "tama"
+version = "1.0.0"
+description = "Tama: a Dynamic Island for Windows, with tasks, focus, music with synced lyrics and a chatbot for routines."
+edition = "2021"
+
+[build-dependencies]
+tauri-build = { version = "2.7.3", features = [] }
+
+[dependencies]
+base64 = "0.23.1"
+clipboard-win = "5.4.1"
+png = "0.18.1"
+serde = { version = "1.0.229", features = ["derive"] }
+serde_json = "1.0.154"
+tauri = { version = "2.12.4", features = ["tray-icon"] }
+tauri-plugin-autostart = "2.7.0"
+tauri-plugin-dialog = "2.8.3"
+tauri-plugin-notification = "2.7.0"
+tauri-plugin-single-instance = "2.5.4"
+windows = { version = "0.62.2", features = ["Foundation", "Media_Control", "Storage_Streams", "Win32_Foundation", "Win32_Graphics_Gdi", "Win32_Media_Audio", "Win32_Media_Audio_Endpoints", "Win32_NetworkManagement_IpHelper", "Win32_NetworkManagement_Ndis", "Win32_Security_Credentials", "Win32_Storage_FileSystem", "Win32_System_Com", "Win32_System_Performance", "Win32_System_Power", "Win32_System_Registry", "Win32_System_SystemInformation", "Win32_UI_Shell", "Win32_UI_Shell_Common", "Win32_UI_WindowsAndMessaging", "Web_Http", "Web_Http_Headers"] }
+
+[profile.release]
+codegen-units = 1
+lto = true
+opt-level = "s"
+panic = "abort"
+strip = true
