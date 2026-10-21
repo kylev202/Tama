@@ -12,6 +12,7 @@ import {
   resetLook,
   setLook,
   SIZES,
+  STANDBY,
   STYLES,
   SURFACES,
 } from '../appearance.js';
@@ -48,7 +49,8 @@ export function createPersonalise({ back, app }) {
     // Every control is rebuilt on a change; keep keyboard focus on the one that was used.
     const focused = el.contains(document.activeElement) ? document.activeElement.dataset.key : null;
     const l = look();
-    const soulStyle = l.style === 'soul';
+    const catStyle = l.style === 'cat';
+    const catOn = catStyle || l.cat;
     fill(
       body,
       section(
@@ -60,7 +62,23 @@ export function createPersonalise({ back, app }) {
         ),
         group(
           choiceRow('Size', 'size', SIZES, l.size),
-          switchRow('Show the soul', 'soul', soulStyle || l.soul, { disabled: soulStyle, note: soulStyle ? 'Always on in the Soul style' : null }),
+          switchRow('Show the cat', 'cat', catOn, { disabled: catStyle, note: catStyle ? 'Always on in the Cat style' : null }),
+          switchRow('Cat antics', 'antics', catOn && l.antics, {
+            disabled: !catOn,
+            note: catOn ? 'Yawns, naps and chases fireflies when left alone' : 'The cat is off',
+          }),
+          stackRow(
+            ['Standby', h('span', { class: 'set-sub' }, catOn ? "Shows in the cat's place while the cat is off" : "In the cat's place while the island rests")],
+            h(
+              'div',
+              { class: 'chips', role: 'group', 'aria-label': 'Standby' },
+              STANDBY.map(([id, name]) => {
+                const option = chip(`standby:${id}`, name, l.standby === id, () => setLook({ standby: id }));
+                option.disabled = catOn;
+                return option;
+              }),
+            ),
+          ),
         ),
       ),
       section(
@@ -100,9 +118,9 @@ export function createPersonalise({ back, app }) {
         group(
           choiceRow('Clock', 'clock24', [[true, '24-hour'], [false, '12-hour']], l.clock24),
           switchRow('Show seconds', 'seconds', l.seconds),
-          switchRow('Clock in the resting island', 'restClock', l.restClock && !soulStyle, {
-            disabled: soulStyle,
-            note: soulStyle ? 'The Soul style rests as just the soul' : null,
+          switchRow('Clock in the resting island', 'restClock', l.restClock && !catStyle, {
+            disabled: catStyle,
+            note: catStyle ? 'The Cat style rests as just the cat' : null,
           }),
           stackRow(
             'Dates',
@@ -186,7 +204,7 @@ export function createPersonalise({ back, app }) {
     return h(
       'button',
       { class: 'style-tile press', type: 'button', 'aria-pressed': String(pressed), dataset: { key: `style:${id}` }, onclick: () => setLook({ style: id }) },
-      h('span', { class: 'style-preview', dataset: { style: id }, 'aria-hidden': 'true' }, h('span', { class: 'shape' }, miniSoul())),
+      h('span', { class: 'style-preview', dataset: { style: id }, 'aria-hidden': 'true' }, h('span', { class: 'shape' }, miniCat())),
       h('span', { class: 'style-name' }, name),
       h('span', { class: 'style-hint' }, hint),
     );
@@ -214,14 +232,15 @@ export function createPersonalise({ back, app }) {
     );
   }
 
-  /** The soul, small and still, for the style previews. */
-  function miniSoul() {
+  /** The cat, small and still, for the style previews. */
+  function miniCat() {
     const svg = document.createElementNS(NS, 'svg');
-    svg.setAttribute('viewBox', '0 0 20 24');
-    svg.setAttribute('class', 'mini-soul');
+    svg.setAttribute('viewBox', '14.5 9 19 19');
+    svg.setAttribute('class', 'mini-cat');
     svg.innerHTML =
-      '<path d="M10 2.5c1.4 3.6 6 5.8 6 11.2a6 6 0 0 1-12 0c0-3.3 2.2-5 3.8-7.4C8.8 4.8 9.6 3.8 10 2.5z"/>' +
-      '<rect x="6.6" y="12.6" width="1.8" height="3.2" rx=".9"/><rect x="11.6" y="12.6" width="1.8" height="3.2" rx=".9"/>';
+      '<path d="M16.6 16.3L17.13 11.39Q17.36 9.29 18.58 10.39L21.42 12.97ZM31.4 16.3L30.87 11.39Q30.64 9.29 29.42 10.39L26.58 12.97Z"/>' +
+      '<path d="M15.4 20C15.4 15.86 19.18 12.6 24 12.6C28.82 12.6 32.6 15.86 32.6 20C32.6 25.03 29.85 27.4 24 27.4C18.15 27.4 15.4 25.03 15.4 20Z"/>' +
+      '<rect x="19.95" y="18.65" width="1.9" height="3.3" rx=".95"/><rect x="26.15" y="18.65" width="1.9" height="3.3" rx=".95"/>';
     return svg;
   }
 

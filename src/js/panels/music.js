@@ -78,7 +78,7 @@ export default function musicPanel() {
       const box = h('div', { class: 'lyrics' });
       els.music = h(
         'div',
-        { class: 'music with-lyrics', style: { '--tint': media.tint ?? 'var(--soul)' } },
+        { class: 'music with-lyrics', style: { '--tint': media.tint ?? 'var(--brand)' } },
         h(
           'div',
           { class: 'np' },
@@ -101,7 +101,7 @@ export default function musicPanel() {
 
     els.music = h(
       'div',
-      { class: 'music', style: { '--tint': media.tint ?? 'var(--soul)' } },
+      { class: 'music', style: { '--tint': media.tint ?? 'var(--brand)' } },
       art,
       h(
         'div',

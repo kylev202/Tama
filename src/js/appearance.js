@@ -1,6 +1,6 @@
 // Personalise: how Tama looks and behaves. The choices live in `state.settings.look` and are
 // applied as attributes and custom properties on <html>, so the stylesheets do the styling;
-// the island, the soul and the clock hear about changes through `onLook`.
+// the island, the cat and the clock hear about changes through `onLook`.
 import { media, onMedia } from './media.js';
 import { commit, lookDefaults, state, subscribe } from './store.js';
 import { configureTime } from './time.js';
@@ -22,7 +22,16 @@ export const ACCENTS = [
 export const STYLES = [
   ['island', 'Island', 'Floats below the top edge'],
   ['notch', 'Notch', 'Joined to the top edge'],
-  ['soul', 'Soul', 'Only the soul until you hover'],
+  ['cat', 'Cat', 'Only the cat until you hover'],
+];
+/** What rests where the cat sits while the cat is off. Drawn by standby.js. */
+export const STANDBY = [
+  ['none', 'None'],
+  ['clock', 'Clock'],
+  ['digits', 'Digits'],
+  ['hourglass', 'Hourglass'],
+  ['breathe', 'Breathe'],
+  ['orbit', 'Orbit'],
 ];
 export const SIZES = [
   ['small', 'Small', 0.9],
@@ -72,8 +81,10 @@ export function accent() {
   const [, , l, c, h] = pick(ACCENTS, look().accent);
   return { l, c, h };
 }
-/** The soul shows in its own style even if it's switched off for the others. */
-export const soulShown = () => look().style === 'soul' || look().soul;
+/** The cat shows in its own style even if it's switched off for the others. */
+export const catShown = () => look().style === 'cat' || look().cat;
+/** The standby scene in the cat's place, or 'none' while the cat is there. */
+export const standby = () => (catShown() ? 'none' : pick(STANDBY, look().standby)[0]);
 
 export function setLook(patch) {
   Object.assign(state.settings.look, patch);
@@ -102,7 +113,8 @@ function apply() {
     surface: current.surface,
     deco: current.decoration,
     font: current.font,
-    soul: soulShown() ? 'on' : 'off',
+    cat: catShown() ? 'on' : 'off',
+    standby: standby(),
   });
   const { l, c, h } = accent();
   root.style.setProperty('--accent', `oklch(${l} ${c} ${h})`);

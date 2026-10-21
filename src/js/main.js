@@ -1,12 +1,13 @@
 // Wires the island together.
-import { accent, onLook, scale, soulShown } from './appearance.js'; // first: it sets up the time formats
+import { accent, onLook, scale, catShown, standby as standbyScene } from './appearance.js'; // first: it sets up the time formats
 import { createAlerts } from './alerts.js';
 import { button, fill, h, listName, listTint } from './dom.js';
 import * as focus from './focus.js';
 import { createIsland } from './island.js';
 import { createLive } from './live.js';
 import { startScheduler, describeActions } from './schedule.js';
-import { createSoul } from './soul.js';
+import { createCat } from './cat.js';
+import { createStandby } from './standby.js';
 import { setDone, snooze, state } from './store.js';
 import { createTabs } from './tabs.js';
 import { listen } from './tauri.js';
@@ -22,13 +23,21 @@ import statsPanel from './panels/stats.js';
 import todayPanel from './panels/today.js';
 import wallpapersPanel from './panels/wallpapers.js';
 
-const soul = createSoul(document.getElementById('soul'));
-const island = createIsland(soul);
+const cat = createCat(document.getElementById('cat'));
+const standby = createStandby(document.getElementById('standby'));
+// Whatever sits in the middle of the bar hears when the island is being looked at.
+const island = createIsland({
+  setAttentive(value) {
+    cat.setAttentive(value);
+    standby.setAttentive(value);
+  },
+  lookAt: (x, y) => cat.lookAt(x, y),
+});
 
 // Shared with panels.
 const app = {
   island,
-  soul,
+  cat,
   open(tab, options = {}) {
     tabs.select(tab, options);
     island.set('open');
@@ -44,8 +53,8 @@ const tabs = createTabs(
   [todayPanel(), focusPanel(), musicPanel(), chatbotPanel(), morePanel([clipboardPanel(), launchPanel(), wallpapersPanel(), statsPanel(), settingsPanel()])],
   app,
 );
-const alerts = createAlerts({ island, soul });
-createLive({ island, soul, open: app.open });
+const alerts = createAlerts({ island, cat });
+createLive({ island, cat, open: app.open });
 
 startScheduler({
   onTask(task) {
@@ -61,7 +70,7 @@ startScheduler({
           primary: true,
           run: () => {
             setDone(task, true);
-            soul.react('happy');
+            cat.react('happy');
           },
         },
       ],
@@ -94,7 +103,7 @@ setInterval(() => {
 function announceFocusEnd(session) {
   if (session.kind === 'focus') {
     const task = state.tasks.find((t) => t.id === session.taskId);
-    soul.react('celebrate');
+    cat.react('celebrate');
     alerts.show({
       iconName: 'sparkle',
       title: 'Focus session done',
@@ -117,21 +126,28 @@ function announceFocusEnd(session) {
   }
 }
 
-// The soul draws only while it can be seen: not behind a fullscreen app, not switched off.
+// The cat draws only while it can be seen: not behind a fullscreen app, not switched off.
+// The standby scene in its place draws only while the island rests.
 let onScreen = true;
-const runSoul = () => (onScreen && soulShown() ? soul.start() : soul.stop());
+const runCat = () => (onScreen && catShown() ? cat.start() : cat.stop());
+const runStandby = () => (onScreen && standbyScene() !== 'none' && island.state === 'rest' ? standby.start() : standby.stop());
+island.onChange(runStandby);
 
 // Hidden while a fullscreen app has the screen: stop drawing, put everything away.
 listen('island-visible', (visible) => {
   onScreen = visible;
-  runSoul();
+  runCat();
+  runStandby();
   if (!visible) island.set('rest');
 });
 
 onLook((look) => {
   island.setLook({ style: look.style, scale: scale(), hoverPeek: look.hoverPeek });
-  soul.setTint(accent());
-  runSoul();
+  cat.setTint(accent());
+  cat.setAntics(look.antics);
+  standby.configure({ scene: standbyScene(), tint: accent(), light: look.surface === 'light' });
+  runCat();
+  runStandby();
 });
 
 // The island is a widget, not a browser page: no page menu, reload, print, find or caret

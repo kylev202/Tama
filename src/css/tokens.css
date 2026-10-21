@@ -15,13 +15,13 @@
   --ink-3: oklch(0.64 0 0);
 
   /* Brand and meaning. The accent is chosen in Personalise (set on <html> by appearance.js);
-     everything soul-coloured derives from it. */
+     everything brand-coloured derives from it. */
   --accent: oklch(0.84 0.105 200);
-  --soul: var(--accent);
-  --soul-hover: oklch(from var(--soul) calc(l + 0.05) c h);
-  --soul-deep: oklch(from var(--accent) 0.45 calc(c * 0.7) h);
-  --on-soul: oklch(from var(--accent) 0.2 calc(c * 0.3) h);
-  --focus-ring: color-mix(in oklch, var(--soul) 55%, transparent);
+  --brand: var(--accent);
+  --brand-hover: oklch(from var(--brand) calc(l + 0.05) c h);
+  --brand-deep: oklch(from var(--accent) 0.45 calc(c * 0.7) h);
+  --on-brand: oklch(from var(--accent) 0.2 calc(c * 0.3) h);
+  --focus-ring: color-mix(in oklch, var(--brand) 55%, transparent);
   --work: oklch(0.7 0.13 52);
   --study: oklch(0.7 0.14 295);
   --danger: oklch(0.7 0.18 25);
@@ -96,9 +96,9 @@
   --ink: oklch(0.2 0 0);
   --ink-2: oklch(0.42 0 0);
   --ink-3: oklch(0.5 0 0);
-  --soul: oklch(from var(--accent) 0.52 max(c, 0.03) h);
-  --soul-hover: oklch(from var(--soul) calc(l - 0.05) c h);
-  --on-soul: oklch(0.99 0 0);
+  --brand: oklch(from var(--accent) 0.52 max(c, 0.03) h);
+  --brand-hover: oklch(from var(--brand) calc(l - 0.05) c h);
+  --on-brand: oklch(0.99 0 0);
   --work: oklch(0.58 0.14 52);
   --study: oklch(0.52 0.17 295);
   --danger: oklch(0.52 0.2 25);

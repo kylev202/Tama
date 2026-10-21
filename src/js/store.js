@@ -18,15 +18,18 @@ const defaults = () => ({
     view: 'today',
     list: 'work',
     lyrics: true, // look lyrics up on LRCLIB and show them
+    hidden: false, // the island is put away as a small icon
     look: lookDefaults(),
   },
 });
 
 /** Personalise: how Tama looks and behaves. See appearance.js for the choices. */
 export const lookDefaults = () => ({
-  style: 'island', // island | notch | soul
+  style: 'island', // island | notch | cat
   size: 'default', // small | default | large
-  soul: true,
+  cat: true,
+  antics: true, // the cat yawns, stretches, naps and plays now and then
+  standby: 'clock', // what rests where the cat sits while it's off: none | clock | digits | hourglass | breathe | orbit
   accent: 'teal',
   surface: 'black', // black | graphite | midnight | light
   decoration: 'none', // none | glow | aurora | stars | grain | artwork
@@ -45,6 +48,14 @@ export const lookDefaults = () => ({
 // Fields added after 0.1, so older saved tasks get them too.
 const taskDefaults = () => ({ notes: '', subtasks: [], repeat: null, repeatOf: null });
 
+/** Settings saved before 2026-10-21 use the cat's old name for its style and switch. */
+function renameOldLook(look) {
+  if (look.style === 'soul') look.style = 'cat';
+  if ('soul' in look) look.cat = look.soul;
+  delete look.soul;
+  return look;
+}
+
 function load() {
   const base = defaults();
   try {
@@ -56,7 +67,7 @@ function load() {
         tasks: (saved.tasks ?? []).map((task) => ({ ...taskDefaults(), ...task })),
         focus: { ...base.focus, ...saved.focus },
         stats: { ...base.stats, ...saved.stats },
-        settings: { ...base.settings, ...saved.settings, look: { ...base.settings.look, ...saved.settings?.look } },
+        settings: { ...base.settings, ...saved.settings, look: renameOldLook({ ...base.settings.look, ...saved.settings?.look }) },
       };
     }
   } catch (error) {

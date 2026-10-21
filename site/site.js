@@ -1,10 +1,10 @@
 // Tama's website. The island at the top is the app itself (demo/, with a stand-in for the
 // native side); this script lets the page reach it the way Windows does, and wires each
-// section to it. The app's pure modules are reused as they are: the soul, quick add, times
+// section to it. The app's pure modules are reused as they are: the cat, quick add, times
 // and icons.
 import { icon } from './demo/js/icons.js';
 import { parseQuickAdd } from './demo/js/parse.js';
-import { createSoul } from './demo/js/soul.js';
+import { createCat } from './demo/js/cat.js';
 import { formatClock, formatDue, formatTime, startOfDay } from './demo/js/time.js';
 
 const $ = (id) => document.getElementById(id);
@@ -145,30 +145,30 @@ document.addEventListener('click', (e) => {
   seen();
 });
 
-/* The hero: the island at four times its size. Its soul watches the pointer, and clicking it
+/* The hero: the island at four times its size. Its cat watches the pointer, and clicking it
    plays a song in the real island and opens it on Music. */
 
-const heroCanvas = $('hero-soul');
-const heroSoul = createSoul(heroCanvas, { scale: 4.5 });
+const heroCanvas = $('hero-cat');
+const heroCat = createCat(heroCanvas, { scale: 4.5 });
 let restless = 0;
 document.querySelector('.hero').addEventListener(
   'pointermove',
   (e) => {
-    heroSoul.setAttentive(true);
-    heroSoul.lookAt(e.clientX, e.clientY);
+    heroCat.setAttentive(true);
+    heroCat.lookAt(e.clientX, e.clientY);
     clearTimeout(restless);
-    restless = setTimeout(() => heroSoul.setAttentive(false), 2500);
+    restless = setTimeout(() => heroCat.setAttentive(false), 2500);
   },
   { passive: true },
 );
 $('hero-island').addEventListener('click', () => {
-  heroSoul.react('celebrate');
+  heroCat.react('celebrate');
   if (!demo) return;
   demo.music.play();
   demo.open('music');
   seen();
 });
-new IntersectionObserver(([entry]) => (entry.isIntersecting ? heroSoul.start() : heroSoul.stop())).observe(heroCanvas);
+new IntersectionObserver(([entry]) => (entry.isIntersecting ? heroCat.start() : heroCat.stop())).observe(heroCanvas);
 
 /* Quick add: the app's own parser, live as you type. */
 
@@ -378,7 +378,7 @@ function syncLook() {
   accentKey = look.accent;
   const [, , l, c, h] = demo.choices.accent.find(([id]) => id === look.accent) ?? demo.choices.accent[0];
   document.documentElement.style.setProperty('--accent', `oklch(${l} ${c} ${h})`);
-  heroSoul.setTint({ c, h });
+  heroCat.setTint({ c, h });
 }
 
 /* Icons for the desktop tools, from the app's own set. */

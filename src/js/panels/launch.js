@@ -75,7 +75,7 @@ export default function launchPanel() {
       else await invoke('url_open', { url: item.engine.url(item.query) });
       els.input.value = '';
       render();
-      app.island.set('rest');
+      if (!app.island.pinned) app.island.set('rest');
     } catch (error) {
       app.toast('Could not open that. It may have been uninstalled.');
       console.error(error);

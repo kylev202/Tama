@@ -1,5 +1,5 @@
 // What the island shows without being opened: the compact live activity in the bar, the
-// peek row on hover, and the clock while open. It also picks the soul's mood.
+// peek row on hover, and the clock while open. It also picks the cat's mood.
 import { look, onLook } from './appearance.js';
 import { button, fill, h, iconButton, listName, listTint, ring } from './dom.js';
 import * as focus from './focus.js';
@@ -21,7 +21,7 @@ import {
   startOfDay,
 } from './time.js';
 
-export function createLive({ island, soul, open }) {
+export function createLive({ island, cat, open }) {
   const lead = document.getElementById('bar-lead');
   const trail = document.getElementById('bar-trail');
   const peek = document.getElementById('layer-peek');
@@ -54,10 +54,10 @@ export function createLive({ island, soul, open }) {
     return { kind: 'none', key: 'none' };
   }
 
-  /** What the resting bar shows: the activity, else the clock if chosen. The soul style rests
-   *  as the soul alone; its mood still shows what's going on. */
+  /** What the resting bar shows: the activity, else the clock if chosen. The cat style (and a
+   *  hidden island) rests as the cat alone; its mood still shows what's going on. */
   function restActivity(now) {
-    if (look().style === 'soul') return { kind: 'none', key: 'none' };
+    if (look().style === 'cat' || island.hidden) return { kind: 'none', key: 'none' };
     const activity = compact(now);
     if (activity.kind === 'none' && look().restClock) return { kind: 'clock', key: `clock:${dayKey(now)}` };
     return activity;
@@ -92,7 +92,7 @@ export function createLive({ island, soul, open }) {
     const activity = restActivity(now);
     const wideClock = activity.kind === 'clock' && (look().seconds || !look().clock24);
     island.setLive(activity.kind === 'none' ? 'rest' : wideClock ? 'wide' : 'live');
-    soul.setMood(moodFor(now));
+    cat.setMood(moodFor(now));
 
     const nextBarKey = islandState === 'rest' ? activity.key : islandState === 'open' ? `open:${openNote(now)}` : islandState;
     if (nextBarKey !== barKey) {
@@ -130,7 +130,7 @@ export function createLive({ island, soul, open }) {
   }
 
   function renderBar(islandState, activity, now) {
-    // Peek and alert show their content in the row below, so only the soul stays on top.
+    // Peek and alert show their content in the row below, so only the cat stays on top.
     if (islandState === 'alert' || islandState === 'peek') {
       fill(lead);
       fill(trail);
@@ -146,13 +146,15 @@ export function createLive({ island, soul, open }) {
         next
           ? h('span', { class: 'bar-note', title: `Next reminder: ${next.title}` }, icon('bell'), formatTime(reminderTime(next)))
           : h('span', { class: 'bar-note' }, formatLongDate(now)),
+        pinButton(),
+        iconButton('hide', 'Hide the island', () => island.hide(), 'small bar-btn'),
       );
       return;
     }
     if (activity.kind === 'focus') {
       const session = focus.session();
       const task = focus.taskOf(session);
-      const tint = session.kind === 'break' ? 'var(--soul)' : task ? listTint(task.list) : 'var(--soul)';
+      const tint = session.kind === 'break' ? 'var(--brand)' : task ? listTint(task.list) : 'var(--brand)';
       const progress = ring(20, 2.6, tint);
       const time = h('span', { class: 'live-time', style: { '--live-tint': session.pausedLeft != null ? 'var(--ink-2)' : 'var(--ink)' } });
       barTickers.push(() => {
@@ -165,7 +167,7 @@ export function createLive({ island, soul, open }) {
       fill(lead, media.art ? h('img', { class: 'live-art', src: media.art, alt: '' }) : h('span', { class: 'live-icon' }, icon('music')));
       const bars = h(
         'span',
-        { class: `bars${media.now?.playing ? ' playing' : ''}`, style: { '--live-tint': media.tint ?? 'var(--soul)' } },
+        { class: `bars${media.now?.playing ? ' playing' : ''}`, style: { '--live-tint': media.tint ?? 'var(--brand)' } },
         h('i'),
         h('i'),
         h('i'),
@@ -187,6 +189,19 @@ export function createLive({ island, soul, open }) {
       fill(lead);
       fill(trail);
     }
+  }
+
+  /** Keeps the open island open while the pointer is elsewhere. */
+  function pinButton() {
+    const label = () => (island.pinned ? 'Unpin the island' : 'Pin the island open');
+    const pin = iconButton('pin', label(), () => {
+      island.setPinned(!island.pinned);
+      pin.setAttribute('aria-pressed', String(island.pinned));
+      pin.setAttribute('aria-label', label());
+      pin.title = label();
+    }, 'small toggle bar-btn');
+    pin.setAttribute('aria-pressed', String(island.pinned));
+    return pin;
   }
 
   function nextReminder(now) {
@@ -215,7 +230,7 @@ export function createLive({ island, soul, open }) {
     const session = focus.session();
     const task = focus.taskOf(session);
     const isBreak = session.kind === 'break';
-    const tint = isBreak ? 'var(--soul)' : task ? listTint(task.list) : 'var(--soul)';
+    const tint = isBreak ? 'var(--brand)' : task ? listTint(task.list) : 'var(--brand)';
     const progress = ring(40, 3.5, tint);
     const sub = h('div', { class: 'peek-sub' });
     peekTickers.push(() => {
@@ -298,7 +313,7 @@ export function createLive({ island, soul, open }) {
         }),
         iconButton('check', 'Mark done', () => {
           setDone(task, true);
-          soul.react('happy');
+          cat.react('happy');
         }, 'solid'),
       ),
     );

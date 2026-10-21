@@ -1,6 +1,6 @@
 /* Tama's website, in daylight. The island is the hero object: true black on bright fields,
    the way it sits on a Windows wallpaper. Colour comes from what it means in the app: the
-   soul's accent, the Study list's violet for focus, the playing song's colour for music, and
+   default teal accent, the Study list's violet for focus, the playing song's colour for music, and
    whichever accent you pick in Personalise. Headlines are Bricolage Grotesque (self-hosted,
    SIL OFL); everything else is Windows' own Segoe UI Variable. */
 
@@ -245,9 +245,11 @@ code {
   letter-spacing: -0.01em;
 }
 
+/* The cat is milky white, so on the white chip it needs the same soft shadow as in the app. */
 .brand-mark {
   width: 22px;
   height: 22px;
+  filter: drop-shadow(0 0.5px 1px oklch(0.3 0.02 85 / 0.45));
 }
 
 .topnav {
@@ -310,7 +312,7 @@ code {
   stroke-linejoin: round;
 }
 
-/* The primary action is a piece of the island: black, with the soul's colour on its icon. */
+/* The primary action is a piece of the island: black, with the accent colour on its icon. */
 .button.primary {
   background: var(--island);
   box-shadow:
@@ -583,7 +585,7 @@ h3 {
   font-variant-numeric: tabular-nums;
 }
 
-/* The island at four times its size, playing a song: cover on the left, the soul in the
+/* The island at four times its size, playing a song: cover on the left, the cat in the
    middle, the bars on the right, as the real one shows it. */
 .stage {
   display: grid;
@@ -627,7 +629,7 @@ h3 {
     radial-gradient(circle at 50% 66%, oklch(0.95 0.08 80) 0 10%, oklch(0.8 0.15 62) 24%, oklch(0.45 0.11 40) 50%, oklch(0.17 0.04 265) 82%);
 }
 
-.hero-soul {
+.hero-cat {
   width: calc(var(--h) * 1.34);
   height: calc(var(--h) * 0.95);
 }
@@ -1635,7 +1637,7 @@ h3 {
     animation: grow 1000ms var(--ease-island) 380ms backwards;
   }
 
-  .hero-island > :not(.hero-soul) {
+  .hero-island > :not(.hero-cat) {
     animation: rise 500ms var(--ease-out) 820ms backwards;
   }
 }

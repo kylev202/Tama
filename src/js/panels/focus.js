@@ -52,7 +52,7 @@ export default function focusPanel() {
 
   function renderIdle() {
     els.label.textContent = 'Ready';
-    els.dial.tint('var(--soul)');
+    els.dial.tint('var(--brand)');
     const task = state.tasks.find((t) => t.id === picked);
     const picker = h(
       'button',
@@ -132,7 +132,7 @@ export default function focusPanel() {
     const task = focus.taskOf(session);
     const paused = session.pausedLeft != null;
     els.label.textContent = paused ? 'Paused' : 'Focus';
-    els.dial.tint(task ? listTint(task.list) : 'var(--soul)');
+    els.dial.tint(task ? listTint(task.list) : 'var(--brand)');
     fill(
       els.side,
       h(
@@ -154,7 +154,7 @@ export default function focusPanel() {
 
   function renderBreak(session) {
     els.label.textContent = session.pausedLeft != null ? 'Paused' : 'Break';
-    els.dial.tint('var(--soul)');
+    els.dial.tint('var(--brand)');
     fill(
       els.side,
       h(

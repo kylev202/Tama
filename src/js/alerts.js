@@ -4,7 +4,7 @@ import { button, fill, h } from './dom.js';
 import { icon } from './icons.js';
 import { chime } from './sound.js';
 
-export function createAlerts({ island, soul }) {
+export function createAlerts({ island, cat }) {
   const layer = document.getElementById('layer-alert');
   const queue = [];
   let current = null;
@@ -22,7 +22,7 @@ export function createAlerts({ island, soul }) {
       if (island.state === 'alert') island.collapse();
       return;
     }
-    const { tint = 'var(--soul)', iconName = 'bell', title, sub = '', actions = [], timeout = 30_000 } = current;
+    const { tint = 'var(--brand)', iconName = 'bell', title, sub = '', actions = [], timeout = 30_000 } = current;
     fill(
       layer,
       h(

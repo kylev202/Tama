@@ -19,6 +19,7 @@ const PATHS = {
   close: '<path d="m6.5 6.5 11 11M17.5 6.5l-11 11"/>',
   trash: '<path d="M5 7h14M10 4h4M7 7l.8 11.2a2 2 0 0 0 2 1.8h4.4a2 2 0 0 0 2-1.8L17 7"/>',
   pin: '<path d="M9 4.5h6l-1 5.2 3 2.8H7l3-2.8zM12 12.5v7"/>',
+  hide: '<path d="M3.5 12H9M6.5 9.5 9 12l-2.5 2.5M20.5 12H15M17.5 9.5 15 12l2.5 2.5"/><circle cx="12" cy="12" r="1.3" fill="currentColor" stroke="none"/>',
   volume: '<path d="M4 9.5h3l4.5-4v13L7 14.5H4z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/>',
   mute: '<path d="M4 9.5h3l4.5-4v13L7 14.5H4z"/><path d="m16 9.5 5 5M21 9.5l-5 5"/>',
   moon: '<path d="M19 14.5A7.5 7.5 0 1 1 9.5 5a6 6 0 0 0 9.5 9.5z"/>',

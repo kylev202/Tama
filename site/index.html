@@ -6,7 +6,7 @@
     <title>Tama: a Dynamic Island for Windows</title>
     <meta
       name="description"
-      content="Tama puts a Dynamic Island at the top of your Windows screen, with a small soul inside: tasks and reminders, a focus timer, now playing with synced lyrics, and a chatbot that sets up routines. Free, 1.5 MB."
+      content="Tama puts a Dynamic Island at the top of your Windows screen, with a small cat inside: tasks and reminders, a focus timer, now playing with synced lyrics, and a chatbot that sets up routines. Free, 1.5 MB."
     />
     <meta name="theme-color" content="#cdeff3" />
     <link rel="canonical" href="https://kylev202.github.io/Tama/" />
@@ -14,7 +14,7 @@
     <link rel="apple-touch-icon" href="img/icon-256.png" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Tama: a Dynamic Island for Windows" />
-    <meta property="og:description" content="A small soul at the top of your screen for tasks, focus, music with synced lyrics and routines. Free for Windows." />
+    <meta property="og:description" content="A small cat at the top of your screen for tasks, focus, music with synced lyrics and routines. Free for Windows." />
     <meta property="og:url" content="https://kylev202.github.io/Tama/" />
     <meta property="og:image" content="https://kylev202.github.io/Tama/img/og.png" />
     <meta property="og:image:width" content="1200" />
@@ -49,7 +49,7 @@
 
     <header class="topbar">
       <a class="brand" href="#top" aria-label="Tama, back to top">
-        <svg class="brand-mark" viewBox="0 0 1024 1024" aria-hidden="true"><use href="#soul-mark" /></svg>
+        <svg class="brand-mark" viewBox="0 0 1024 1024" aria-hidden="true"><use href="#cat-mark" /></svg>
         <span>Tama</span>
       </a>
       <nav class="topnav" aria-label="Site">
@@ -65,7 +65,7 @@
           <span class="hint-mouse">That's Tama up there. Hover it, or scroll down on it.</span>
           <span class="hint-touch">That's Tama up there. Tap it.</span>
         </p>
-        <h1 id="hero-title">A Dynamic Island for Windows, with a soul inside.</h1>
+        <h1 id="hero-title">A Dynamic Island for Windows, with a cat inside.</h1>
         <p class="lede">
           Tama sits at the top of your screen and shows what's happening now: a focus timer, the song that's playing, the next thing due. Hover it
           for quick controls. Click it to plan your day.
@@ -83,7 +83,7 @@
         <div class="stage">
           <button class="hero-island" id="hero-island" type="button" data-demo aria-label="Play a song in Tama at the top of the page">
             <span class="hero-art"></span>
-            <canvas class="hero-soul" id="hero-soul"></canvas>
+            <canvas class="hero-cat" id="hero-cat"></canvas>
             <span class="hero-bars"><i></i><i></i><i></i><i></i></span>
           </button>
         </div>
@@ -146,7 +146,7 @@
         <div class="copy">
           <h2 id="focus-title">A focus timer you can see without looking for it.</h2>
           <p>
-            Pick a task and start 25 minutes. The countdown stays in the closed island, the soul closes its eyes, and Tama offers a break when time
+            Pick a task and start 25 minutes. The countdown stays in the closed island, the cat closes its eyes, and Tama offers a break when time
             is up. Focus minutes add up per list and keep your study streak going.
           </p>
           <div class="actions" id="focus-actions">
@@ -359,18 +359,19 @@
 
     <svg width="0" height="0" style="position: absolute" aria-hidden="true">
       <defs>
-        <radialGradient id="mark-body" cx="0.44" cy="0.66" r="0.7">
-          <stop offset="0" stop-color="#f2fdff" />
-          <stop offset="0.42" stop-color="#9fe6f2" />
-          <stop offset="1" stop-color="#1f8ea6" />
+        <radialGradient id="mark-body" gradientUnits="userSpaceOnUse" fx="443" fy="599" cx="512" cy="516" r="523">
+          <stop offset="0" stop-color="#fefdfa" />
+          <stop offset="0.4" stop-color="#f5f3eb" />
+          <stop offset="1" stop-color="#c2bdb2" />
         </radialGradient>
-        <symbol id="soul-mark" viewBox="0 0 1024 1024">
+        <symbol id="cat-mark" viewBox="202 206 620 620">
+          <path d="M275 445L292 288Q299 220 338 256L429 338ZM749 445L732 288Q725 220 686 256L595 338Z" fill="url(#mark-body)" />
           <path
-            d="M512 846C367 846 268 746 268 612C268 500 340 436 410 368C468 312 506 256 520 188C526 158 548 132 588 118C568 150 566 186 586 226C614 284 676 336 714 400C744 452 756 528 756 612C756 746 657 846 512 846Z"
+            d="M237 563C237 431 358 326 512 326C666 326 787 431 787 563C787 724 699 800 512 800C325 800 237 724 237 563Z"
             fill="url(#mark-body)"
           />
-          <rect x="424" y="566" width="50" height="104" rx="25" fill="#082a33" />
-          <rect x="550" y="566" width="50" height="104" rx="25" fill="#082a33" />
+          <rect x="383" y="520" width="61" height="106" rx="30.5" fill="#082a33" />
+          <rect x="581" y="520" width="61" height="106" rx="30.5" fill="#082a33" />
         </symbol>
       </defs>
     </svg>

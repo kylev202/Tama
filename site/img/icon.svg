@@ -1,23 +1,19 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
   <defs>
-    <radialGradient id="glow" cx="0.5" cy="0.6" r="0.5">
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
       <stop offset="0" stop-color="#4fc8dc" stop-opacity="0.5"/>
       <stop offset="1" stop-color="#4fc8dc" stop-opacity="0"/>
     </radialGradient>
-    <radialGradient id="body" cx="0.44" cy="0.66" r="0.7">
-      <stop offset="0" stop-color="#f2fdff"/>
-      <stop offset="0.42" stop-color="#9fe6f2"/>
-      <stop offset="1" stop-color="#1f8ea6"/>
-    </radialGradient>
-    <radialGradient id="core" cx="0.5" cy="0.62" r="0.5">
-      <stop offset="0" stop-color="#ffffff" stop-opacity="0.9"/>
-      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    <radialGradient id="body" gradientUnits="userSpaceOnUse" fx="443" fy="599" cx="512" cy="516" r="523">
+      <stop offset="0" stop-color="#fefdfa"/>
+      <stop offset="0.4" stop-color="#f5f3eb"/>
+      <stop offset="1" stop-color="#c2bdb2"/>
     </radialGradient>
   </defs>
   <rect x="40" y="40" width="944" height="944" rx="236" fill="#000"/>
-  <circle cx="512" cy="600" r="380" fill="url(#glow)"/>
-  <path d="M512 846C367 846 268 746 268 612C268 500 340 436 410 368C468 312 506 256 520 188C526 158 548 132 588 118C568 150 566 186 586 226C614 284 676 336 714 400C744 452 756 528 756 612C756 746 657 846 512 846Z" fill="url(#body)"/>
-  <ellipse cx="500" cy="640" rx="150" ry="140" fill="url(#core)"/>
-  <rect x="424" y="566" width="50" height="104" rx="25" fill="#082a33"/>
-  <rect x="550" y="566" width="50" height="104" rx="25" fill="#082a33"/>
+  <circle cx="512" cy="540" r="400" fill="url(#glow)"/>
+  <path d="M275 445L292 288Q299 220 338 256L429 338ZM749 445L732 288Q725 220 686 256L595 338Z" fill="url(#body)"/>
+  <path d="M237 563C237 431 358 326 512 326C666 326 787 431 787 563C787 724 699 800 512 800C325 800 237 724 237 563Z" fill="url(#body)"/>
+  <rect x="383" y="520" width="61" height="106" rx="30.5" fill="#082a33"/>
+  <rect x="581" y="520" width="61" height="106" rx="30.5" fill="#082a33"/>
 </svg>

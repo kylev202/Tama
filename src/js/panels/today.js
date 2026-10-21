@@ -724,14 +724,14 @@ export default function todayPanel() {
     check.setAttribute('aria-checked', String(done));
     if (done) {
       tick();
-      app.soul.react('happy');
+      app.cat.react('happy');
     }
     // Let the check draw before the row moves to its new group.
     setTimeout(() => {
       const copy = setDone(task, done);
       if (copy) app.toast(`Done. Next: ${formatDue(task.due, task.allDay)}`, { label: 'Undo', run: () => setDone(copy, false) });
       const { done: count, total } = todayProgress();
-      if (done && total > 0 && count === total) app.soul.react('celebrate');
+      if (done && total > 0 && count === total) app.cat.react('celebrate');
     }, done ? 420 : 0);
   }
 

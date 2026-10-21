@@ -76,7 +76,7 @@
 .empty > svg.icon {
   width: 28px;
   height: 28px;
-  color: var(--soul);
+  color: var(--brand);
 }
 
 .empty .btn {
@@ -611,7 +611,7 @@ button.group-title svg.icon {
 }
 
 .cal-day.today .cal-num {
-  color: var(--soul);
+  color: var(--brand);
 }
 
 .cal-day[aria-pressed="true"] {
@@ -619,15 +619,15 @@ button.group-title svg.icon {
 }
 
 .cal-day.today[aria-pressed="true"] {
-  background: var(--soul);
+  background: var(--brand);
 }
 
 .cal-day.today[aria-pressed="true"] .cal-num {
-  color: var(--on-soul);
+  color: var(--on-brand);
 }
 
 .cal-day.today[aria-pressed="true"] .cal-dots i {
-  background: var(--on-soul);
+  background: var(--on-brand);
 }
 
 .cal-num {
@@ -837,7 +837,7 @@ button.group-title svg.icon {
 .focus-foot svg.icon {
   width: 16px;
   height: 16px;
-  color: var(--soul);
+  color: var(--brand);
 }
 
 /* Music */
@@ -1271,7 +1271,7 @@ button.lyric.active:hover {
   display: inline-flex;
   align-items: center;
   gap: 3px;
-  color: var(--soul);
+  color: var(--brand);
   font-weight: 600;
 }
 
@@ -1281,7 +1281,7 @@ button.lyric.active:hover {
 }
 
 .clip.copied {
-  background: color-mix(in oklch, var(--soul) 14%, var(--island));
+  background: color-mix(in oklch, var(--brand) 14%, var(--island));
 }
 
 /* Launch */
@@ -1420,7 +1420,7 @@ button.lyric.active:hover {
 }
 
 .pin-toggle.on {
-  color: var(--soul);
+  color: var(--brand);
 }
 
 /* Wallpapers */
@@ -1468,7 +1468,7 @@ button.lyric.active:hover {
 }
 
 .wall.current::after {
-  box-shadow: inset 0 0 0 2.5px var(--soul);
+  box-shadow: inset 0 0 0 2.5px var(--brand);
 }
 
 .wall-badge {
@@ -1481,8 +1481,8 @@ button.lyric.active:hover {
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  background: var(--soul);
-  color: var(--on-soul);
+  background: var(--brand);
+  color: var(--on-brand);
 }
 
 .wall-badge svg.icon {
@@ -1736,7 +1736,7 @@ button.lyric.active:hover {
   flex: none;
   width: 14px;
   height: 14px;
-  color: var(--soul);
+  color: var(--brand);
 }
 
 .chat-thinking {
@@ -1788,13 +1788,13 @@ button.lyric.active:hover {
 .icon-btn.chat-send {
   width: 40px;
   height: 40px;
-  background: var(--soul);
-  color: var(--on-soul);
+  background: var(--brand);
+  color: var(--on-brand);
 }
 
 .icon-btn.chat-send:hover:not(:disabled) {
-  background: var(--soul-hover);
-  color: var(--on-soul);
+  background: var(--brand-hover);
+  color: var(--on-brand);
 }
 
 .chat-key {
@@ -1853,7 +1853,7 @@ button.lyric.active:hover {
 
 .stat-line {
   fill: none;
-  stroke: var(--soul);
+  stroke: var(--brand);
   stroke-width: 1.5;
   stroke-linejoin: round;
   stroke-linecap: round;
@@ -1865,7 +1865,7 @@ button.lyric.active:hover {
 }
 
 .stat-area {
-  fill: color-mix(in oklch, var(--soul) 16%, transparent);
+  fill: color-mix(in oklch, var(--brand) 16%, transparent);
 }
 
 .stat-value {
@@ -1951,7 +1951,7 @@ button.lyric.active:hover {
 }
 
 .shortcut svg.icon {
-  color: var(--soul);
+  color: var(--brand);
 }
 
 .set-page {
@@ -2055,7 +2055,7 @@ button.lyric.active:hover {
 }
 
 .style-tile[aria-pressed="true"] {
-  box-shadow: inset 0 0 0 2px var(--soul);
+  box-shadow: inset 0 0 0 2px var(--brand);
 }
 
 .style-preview {
@@ -2107,29 +2107,29 @@ button.lyric.active:hover {
   background: radial-gradient(circle at 100% 100%, transparent 70.2%, var(--island) 71%);
 }
 
-.style-preview[data-style="soul"] .shape {
+.style-preview[data-style="cat"] .shape {
   top: 4px;
   width: 20px;
-  height: 22px;
+  height: 20px;
   background: none;
   filter: drop-shadow(0 1px 2px oklch(0 0 0 / 0.5));
 }
 
-.mini-soul {
-  width: 9px;
-  height: 11px;
+.mini-cat {
+  width: 10px;
+  height: 10px;
 }
 
-.style-preview[data-style="soul"] .mini-soul {
-  width: 15px;
-  height: 18px;
+.style-preview[data-style="cat"] .mini-cat {
+  width: 16px;
+  height: 16px;
 }
 
-.mini-soul path {
-  fill: var(--accent);
+.mini-cat path {
+  fill: oklch(0.96 0.01 90);
 }
 
-.mini-soul rect {
+.mini-cat rect {
   fill: oklch(from var(--accent) 0.2 calc(c * 0.3) h);
 }
 
@@ -2216,7 +2216,7 @@ button.lyric.active:hover {
 }
 
 .deco-tile[aria-pressed="true"] .deco-preview {
-  outline: 2px solid var(--soul);
+  outline: 2px solid var(--brand);
   outline-offset: 2px;
 }
 
