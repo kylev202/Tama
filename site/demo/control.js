@@ -2,7 +2,7 @@
 // modules, so it drives the same state the island shows: open a tab, run a section's scene
 // (focus, music, a reminder), add a task, change the look. The page is same-origin and
 // calls it directly.
-import { ACCENTS, DECORATIONS, setLook, STYLES, SURFACES } from './js/appearance.js';
+import { ACCENTS, DECORATIONS, setLook, STANDBY, STYLES, SURFACES } from './js/appearance.js';
 import * as focus from './js/focus.js';
 import { lyrics, onLine, onLyrics } from './js/lyrics.js';
 import { control, media, onMedia, seek } from './js/media.js';
@@ -92,7 +92,8 @@ window.tamaDemo = {
   },
   remind,
   add,
-  choices: { accent: ACCENTS, style: STYLES, surface: SURFACES, decoration: DECORATIONS },
+  // Standby is the cat, or a scene in its place with the cat switched off.
+  choices: { accent: ACCENTS, style: STYLES, surface: SURFACES, decoration: DECORATIONS, standby: [['cat', 'Cat'], ...STANDBY.filter(([id]) => id !== 'none')] },
   look: () => state.settings.look,
   setLook,
   /** Hears every change to tasks, focus and settings. */

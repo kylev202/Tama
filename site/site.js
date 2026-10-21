@@ -337,7 +337,12 @@ const GROUPS = [
   ['styles', 'style'],
   ['surfaces', 'surface'],
   ['decorations', 'decoration'],
+  ['standbys', 'standby'],
 ];
+
+// Standby is two settings in the app: the cat switch, and the scene shown while it's off.
+const chosen = (look, name) => (name === 'standby' ? (look.style === 'cat' || look.cat ? 'cat' : look.standby) : look[name]);
+const patch = (name, value) => (name !== 'standby' ? { [name]: value } : value === 'cat' ? { cat: true } : { cat: false, standby: value });
 
 function renderControls() {
   const look = demo.look();
@@ -346,7 +351,7 @@ function renderControls() {
     group.replaceChildren(
       ...demo.choices[name].map(([value, label, l, c, h]) => {
         const option = document.createElement('label');
-        const input = Object.assign(document.createElement('input'), { type: 'radio', name, value, checked: look[name] === value });
+        const input = Object.assign(document.createElement('input'), { type: 'radio', name, value, checked: chosen(look, name) === value });
         const face = document.createElement('span');
         if (name === 'accent') {
           option.className = 'swatch';
@@ -363,14 +368,14 @@ function renderControls() {
 }
 
 controls.addEventListener('change', (e) => {
-  if (demo && e.target.name) demo.setLook({ [e.target.name]: e.target.value });
+  if (demo && e.target.name) demo.setLook(patch(e.target.name, e.target.value));
 });
 
 let accentKey = '';
 function syncLook() {
   const look = demo.look();
   for (const [, name] of GROUPS) {
-    const input = controls.querySelector(`input[name="${name}"][value="${look[name]}"]`);
+    const input = controls.querySelector(`input[name="${name}"][value="${chosen(look, name)}"]`);
     if (input && !input.checked) input.checked = true;
   }
   frame.style.colorScheme = look.surface === 'light' ? 'light' : 'dark';

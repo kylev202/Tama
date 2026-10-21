@@ -9,7 +9,7 @@
 Tasks and reminders, a focus timer, now playing with synced lyrics and a chatbot that sets up routines,<br />
 all in one black capsule at the top of your screen.
 
-[![Version 1.0.0](https://img.shields.io/badge/version-1.0.0-0b0b0b?style=flat-square)](https://github.com/kylev202/Tama/releases/latest)
+[![Version 1.1.0](https://img.shields.io/badge/version-1.1.0-0b0b0b?style=flat-square)](https://github.com/kylev202/Tama/releases/latest)
 [![Windows 11, 64-bit](https://img.shields.io/badge/Windows%2011-64--bit-0078D4?style=flat-square)](#install)
 [![Built with Tauri 2](https://img.shields.io/badge/built%20with-Tauri%202-24C8DB?style=flat-square&logo=tauri&logoColor=white)](https://tauri.app/)
 [![Installer 1.5 MB](https://img.shields.io/badge/installer-1.5%20MB-5b6770?style=flat-square)](https://github.com/kylev202/Tama/releases/latest)
@@ -78,7 +78,7 @@ Under **More**:
 
 ## Install
 
-1. Download `Tama_1.0.0_x64-setup.exe` from [Releases](https://github.com/kylev202/Tama/releases/latest).
+1. Download `Tama_1.1.0_x64-setup.exe` from [Releases](https://github.com/kylev202/Tama/releases/latest).
 2. Run it. It installs for your account only, so it doesn't ask for admin rights.
 3. If Windows SmartScreen says it protected your PC, choose **More info**, then **Run anyway**. Tama isn't code-signed yet, so Windows doesn't recognise it.
 4. Look at the top of your main screen. Tama starts with Windows; turn that off in Settings or from the tray icon.

@@ -1,6 +1,6 @@
 [package]
 name = "tama"
-version = "1.0.0"
+version = "1.1.0"
 description = "Tama: a Dynamic Island for Windows, with tasks, focus, music with synced lyrics and a chatbot for routines."
 edition = "2021"
 
