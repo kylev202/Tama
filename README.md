@@ -4,7 +4,7 @@
 
 # Tama
 
-**A Dynamic Island for Windows, with a cat inside.**
+**A Dynamic Island for Windows.**
 
 Tasks and reminders, a focus timer, now playing with synced lyrics and a chatbot that sets up routines,<br />
 all in one black capsule at the top of your screen.
